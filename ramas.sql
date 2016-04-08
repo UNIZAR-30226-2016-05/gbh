@@ -1,0 +1,14 @@
+insert into erasmus.Rama(idrama) values ('Biología');
+insert into erasmus.Rama(idrama) values ('Ciencias sociales');
+insert into erasmus.Rama(idrama) values ('Ciencias de la salud');
+insert into erasmus.Rama(idrama) values ('Derecho');
+insert into erasmus.Rama(idrama) values ('Economía');
+insert into erasmus.Rama(idrama) values ('Filología');
+insert into erasmus.Rama(idrama) values ('Física');
+insert into erasmus.Rama(idrama) values ('Geografía');
+insert into erasmus.Rama(idrama) values ('Historia');
+insert into erasmus.Rama(idrama) values ('Informática');
+insert into erasmus.Rama(idrama) values ('Ingenieria');
+insert into erasmus.Rama(idrama) values ('Matemáticas');
+insert into erasmus.Rama(idrama) values ('Química');
+insert into erasmus.Rama(idrama) values ('Veterinaria');

@@ -8,21 +8,21 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema Erasmus
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema Erasmus
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `Erasmus` DEFAULT CHARACTER SET utf8 ;
+USE `Erasmus` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Destinos`
+-- Table `Erasmus`.`Destinos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Destinos` ;
+DROP TABLE IF EXISTS `Erasmus`.`Destinos` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Destinos` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Destinos` (
   `idDestino` INT NOT NULL,
   `Pais` TEXT NOT NULL,
   `Ciudad` TEXT NOT NULL,
@@ -32,11 +32,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Usuarios`
+-- Table `Erasmus`.`Usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Usuarios` ;
+DROP TABLE IF EXISTS `Erasmus`.`Usuarios` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Usuarios` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Usuarios` (
   `Correo` VARCHAR(50) NOT NULL,
   `Nombre` VARCHAR(45) NOT NULL,
   `Contraseña` VARCHAR(45) NOT NULL,
@@ -46,11 +46,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Comentarios`
+-- Table `Erasmus`.`Comentarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comentarios` ;
+DROP TABLE IF EXISTS `Erasmus`.`Comentarios` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Comentarios` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Comentarios` (
   `idComentario` INT NOT NULL,
   `Destino` INT NOT NULL,
   `Usuario` VARCHAR(50) NOT NULL,
@@ -60,23 +60,23 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Comentarios` (
   INDEX `Usuario_idx` (`Usuario` ASC),
   CONSTRAINT `Destino_C`
     FOREIGN KEY (`Destino`)
-    REFERENCES `mydb`.`Destinos` (`idDestino`)
+    REFERENCES `Erasmus`.`Destinos` (`idDestino`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Usuario_C`
     FOREIGN KEY (`Usuario`)
-    REFERENCES `mydb`.`Usuarios` (`Correo`)
+    REFERENCES `Erasmus`.`Usuarios` (`Correo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Valoraciones`
+-- Table `Erasmus`.`Valoraciones`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Valoraciones` ;
+DROP TABLE IF EXISTS `Erasmus`.`Valoraciones` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Valoraciones` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Valoraciones` (
   `idValoracion` INT NOT NULL,
   `Usuario` VARCHAR(50) NOT NULL,
   `Destino` INT NOT NULL,
@@ -86,34 +86,34 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Valoraciones` (
   INDEX `Destino_idx` (`Destino` ASC),
   CONSTRAINT `Usuario_V`
     FOREIGN KEY (`Usuario`)
-    REFERENCES `mydb`.`Usuarios` (`Correo`)
+    REFERENCES `Erasmus`.`Usuarios` (`Correo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Destino_V`
     FOREIGN KEY (`Destino`)
-    REFERENCES `mydb`.`Destinos` (`idDestino`)
+    REFERENCES `Erasmus`.`Destinos` (`idDestino`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Rama`
+-- Table `Erasmus`.`Rama`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Rama` ;
+DROP TABLE IF EXISTS `Erasmus`.`Rama` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Rama` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Rama` (
   `idRama` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`idRama`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Carrera`
+-- Table `Erasmus`.`Carrera`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Carrera` ;
+DROP TABLE IF EXISTS `Erasmus`.`Carrera` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Carrera` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Carrera` (
   `idCarrera` INT NOT NULL,
   `Destino` INT NOT NULL,
   `Rama` VARCHAR(100) NOT NULL,
@@ -127,23 +127,23 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Carrera` (
   INDEX `Rama_idx` (`Rama` ASC),
   CONSTRAINT `Destino_Car`
     FOREIGN KEY (`Destino`)
-    REFERENCES `mydb`.`Destinos` (`idDestino`)
+    REFERENCES `Erasmus`.`Destinos` (`idDestino`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Rama_Car`
     FOREIGN KEY (`Rama`)
-    REFERENCES `mydb`.`Rama` (`idRama`)
+    REFERENCES `Erasmus`.`Rama` (`idRama`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Asignaturas`
+-- Table `Erasmus`.`Asignaturas`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Asignaturas` ;
+DROP TABLE IF EXISTS `Erasmus`.`Asignaturas` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Asignaturas` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Asignaturas` (
   `idAsignatura` INT NOT NULL,
   `Carrera` INT NOT NULL,
   `Nombre` TEXT NOT NULL,
@@ -152,18 +152,18 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Asignaturas` (
   INDEX `idCarrera_idx` (`Carrera` ASC),
   CONSTRAINT `idCarrera_A`
     FOREIGN KEY (`Carrera`)
-    REFERENCES `mydb`.`Carrera` (`idCarrera`)
+    REFERENCES `Erasmus`.`Carrera` (`idCarrera`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Valoraciones`
+-- Table `Erasmus`.`Valoraciones`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Valoraciones` ;
+DROP TABLE IF EXISTS `Erasmus`.`Valoraciones` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Valoraciones` (
+CREATE TABLE IF NOT EXISTS `Erasmus`.`Valoraciones` (
   `idValoracion` INT NOT NULL,
   `Usuario` VARCHAR(50) NOT NULL,
   `Destino` INT NOT NULL,
@@ -173,12 +173,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Valoraciones` (
   INDEX `Destino_idx` (`Destino` ASC),
   CONSTRAINT `Usuario_V`
     FOREIGN KEY (`Usuario`)
-    REFERENCES `mydb`.`Usuarios` (`Correo`)
+    REFERENCES `Erasmus`.`Usuarios` (`Correo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Destino_V`
     FOREIGN KEY (`Destino`)
-    REFERENCES `mydb`.`Destinos` (`idDestino`)
+    REFERENCES `Erasmus`.`Destinos` (`idDestino`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

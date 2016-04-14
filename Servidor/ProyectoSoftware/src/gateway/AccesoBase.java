@@ -10,9 +10,9 @@ import objetos.Destino;
 public class AccesoBase {
 	
 	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_CONNECTION = "jdbc:mysql://localhost/Erasmus";//Poner el que sea
+	private static final String DB_CONNECTION = "jdbc:mysql://127.0.0.1/mydb";//Poner el que sea
 	private static final String DB_USER = "root";//Poner el que sea
-	private static final String DB_PASSWORD = "ssii2015";//Poner el que sea
+	private static final String DB_PASSWORD = "root";//Poner el que sea
 	
 	/**
 	 * Establece una conexion con la bbdd

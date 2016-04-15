@@ -48,50 +48,58 @@ public class ServletAddDestiny extends HttpServlet {
 			String rama=request.getParameter("rama");
 			int numRemoved=Integer.parseInt(request.getParameter("numRemoved"));
 			int countRemoved=0;
-			
-			try {
-				DestinoDAO.insertDestino(carrera, universidad, ciudad, pais,language, rama, imag);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(pais == "Elija pais" || ciudad == "" || universidad == "" || language == "Elija idioma"
+					|| carrera == "" || rama == "Elija rama"){
+				response.sendRedirect("Erasmus/addDestiny.html?error=1");
 			}
-			int idDestino=DestinoDAO.getIdDestino(pais, ciudad);
-			int idCarrera=DestinoDAO.getIdCarrera(idDestino, rama,carrera,universidad,language);
-			String subjectName="";
-			int creditNumber=0;
-			int cuatriNumber=0;
-			String cuatri="";
-			int numSubject=1;
-			subjectName=request.getParameter("subjectName"+numSubject);
-			while(request.getParameter("subjectName"+numSubject) != null || countRemoved < numRemoved){
-				if(request.getParameter("subjectName"+numSubject) != null && 
-						request.getParameter("cuatriNumber"+numSubject) != null
-						&& request.getParameter("creditNumber"+numSubject) != null){
-					subjectName=request.getParameter("subjectName"+numSubject);
-					creditNumber=Integer.parseInt(request.getParameter("creditNumber"+numSubject));
-					cuatri=request.getParameter("cuatriNumber"+numSubject);
-					
-					if (cuatri.contains("OtoÃ±o") || cuatri.contains("Otoño")){
-						cuatriNumber = 1;
-					}
-					else if (cuatri.contains("Primavera")){
-						cuatriNumber = 2;
-					}
-					
-					try {
-						AsignaturaDAO.insertAsignatura(subjectName,idCarrera,creditNumber,cuatriNumber);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
+			else{
+				try {
+					DestinoDAO.insertDestino(carrera, universidad, ciudad, pais,language, rama, imag);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				else{
-					countRemoved++;
+				int idDestino=DestinoDAO.getIdDestino(pais, ciudad);
+				int idCarrera=DestinoDAO.getIdCarrera(idDestino, rama,carrera,universidad,language);
+				String subjectName="";
+				int creditNumber=0;
+				int cuatriNumber=0;
+				String creditN="";
+				String cuatri="";
+				int numSubject=1;
+				subjectName=request.getParameter("subjectName"+numSubject);
+				while(request.getParameter("subjectName"+numSubject) != null || countRemoved < numRemoved){
+					if(request.getParameter("subjectName"+numSubject) != null && 
+							request.getParameter("cuatriNumber"+numSubject) != null
+							&& request.getParameter("creditNumber"+numSubject) != null){
+						subjectName=request.getParameter("subjectName"+numSubject);
+						creditN=request.getParameter("creditNumber"+numSubject);
+						if(isNumeric(creditN)){
+							creditNumber=Integer.parseInt(request.getParameter("creditNumber"+numSubject));
+						}
+						cuatri=request.getParameter("cuatriNumber"+numSubject);
+						if (cuatri.contains("OtoÃ±o") || cuatri.contains("Otoño")){
+							cuatriNumber = 1;
+						}
+						else if (cuatri.contains("Primavera")){
+							cuatriNumber = 2;
+						}
+						if(isNumeric(creditN) || cuatriNumber==1 || cuatriNumber==2 || subjectName!=""){
+							try {
+								AsignaturaDAO.insertAsignatura(subjectName,idCarrera,creditNumber,cuatriNumber);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+					else{
+						countRemoved++;
+					}
+					numSubject++;
 				}
-				numSubject++;
+		    	response.sendRedirect("Erasmus/home.html");
 			}
-	    	response.sendRedirect("Erasmus/home.html");
 	}
 
 	/**
@@ -101,5 +109,14 @@ public class ServletAddDestiny extends HttpServlet {
 		
 		doGet(request, response);
 	}
+	
+    private static boolean isNumeric(String cadena){
+    	try {
+    		Integer.parseInt(cadena);
+    		return true;
+    	} catch (NumberFormatException nfe){
+    		return false;
+    	}
+    }
 
 }

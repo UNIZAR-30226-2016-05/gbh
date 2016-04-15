@@ -266,7 +266,6 @@
 								<option>Física</option>
 								<option>Geografía</option>
 								<option>Historia</option>
-								<option>Informática</option>
 								<option>Ingenieria</option>
 								<option>Matematicas</option>
 								<option>Química</option>
@@ -333,8 +332,8 @@
 						if (table.find('input:text').length < 40) {
 							table
 									.append('<tr><td class="col-md-4"> <input type="text" name="subjectName'+numSubjects+'" id="subjectName" placeholder="Nombre" class="form-control input-lg"/> </td>'
-											+ '<td class="col-md-2"> <input type="text" name="creditNumber'+numSubjects+'" id="creditNumber" placeholder="Créditos" class="form-control input-lg" onChange="validarSiNumero(this.value);"/> </td>'
-											+ '<td class="col-md-2"> <select name="cuatriNumber'+numSubjects+'" class="form-control" id=name="cuatriNumber" style="height: 46px; weight: 46px;" onChange="validarCuatri(this.value)" style="margin-right: 5px;">'
+											+ '<td class="col-md-2"> <input type="text" name="creditNumber'+numSubjects+'" id="creditNumber" placeholder="Créditos" class="form-control input-lg"/> </td>'
+											+ '<td class="col-md-2"> <select name="cuatriNumber'+numSubjects+'" class="form-control" id=name="cuatriNumber" style="height: 46px; weight: 46px;" style="margin-right: 5px;">'
 												+ '<option>Semestre</option> <option>Otoño</option> <option>Primavera</option> </select></td>'
 											+ '<td class="col-md-1"> <button type="button" class="btn btn-danger" onclick="deleteRow(this)" style="height: 46px;" ><span class="glyphicon glyphicon-remove"></span> Borrar </button> </td></tr>');
 						}
@@ -373,13 +372,16 @@
 	}
 
 	function submitAdvice(f) {
-
 		var countryname = document.getElementById("countryName").value;
 		var cityname = document.getElementById("cityName").value;
 		var universityname = document.getElementById("universityName").value;
 		var language = document.getElementById("language").value;
 		var rama = document.getElementById("rama").value;
 		var carrera = document.getElementById("degreeName").value;
+		var imag = document.getElementById("degreeImg").value;
+		var asig = document.getElementById("subjectName").value;
+		var credit = document.getElementById("creditNumber").value;
+		var cuatri = document.getElementById("cuatriNumber").value;
 
 		if (countryname == "Elija pais") {
 			alert('Introduzca un pais');
@@ -415,21 +417,36 @@
 			alert('Introduzca una carrera');
 			return false;
 		}
+		
+		if (imag == ""){
+			alert('Introduzca una imagen');
+			return false;
+		}
+		
+		if (asig == "") {
+			alert('Introduzca una asignatura');
+			return false;
+		}
+		
+		if (credit == "" || !validarSiNumero(credit)) {
+			alert('Introduzca un número de créditos');
+			return false;
+		}
+		
+		if (cuatri == 'Semestre') {
+			alert("Seleccione un semestre");
+			return false;
+		}
 	}
+	
+	function validarSiNumero(numero){
+    	if (!/^([0-9])*$/.test(numero)){
+    		return false;
+    	}
+    	else{
+    		return true;
+    	}
+ 	}
 </script>
 
-    <script type="text/javascript">
-      function validarSiNumero(numero){
-        if (!/^([0-9])*$/.test(numero))
-          alert("El valor " + numero + " no es un número");
-	  return false;
-      }
-
-			function validarCuatri(cuatri){
-				var x = cuatri
-        if (cuatri == 'Semestre')
-          alert("Seleccione un semestre");
-	  return false;
-      }
-    </script>
 </html>

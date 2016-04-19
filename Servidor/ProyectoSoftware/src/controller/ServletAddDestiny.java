@@ -48,11 +48,11 @@ public class ServletAddDestiny extends HttpServlet {
 			String rama=request.getParameter("rama");
 			int numRemoved=Integer.parseInt(request.getParameter("numRemoved"));
 			int countRemoved=0;
-			if(pais == "Elija pais" || ciudad == "" || universidad == "" || language == "Elija idioma"
+			/*if(pais == "Elija pais" || ciudad == "" || universidad == "" || language == "Elija idioma"
 					|| carrera == "" || rama == "Elija rama"){
 				response.sendRedirect("Erasmus/addDestiny.html?error=1");
 			}
-			else{
+			else{*/
 				try {
 					DestinoDAO.insertDestino(carrera, universidad, ciudad, pais,language, rama, imag);
 				} catch (SQLException e) {
@@ -100,7 +100,7 @@ public class ServletAddDestiny extends HttpServlet {
 				}
 		    	response.sendRedirect("Erasmus/home.html");
 			}
-	}
+	//}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

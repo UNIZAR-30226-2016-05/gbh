@@ -1,0 +1,10 @@
+insert into Destinos (Pais,Ciudad,Validado) values('Italia','Turin',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Irlanda','Cork',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Austria','Viena',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Alemania','Berlin',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('España','Zaragoza',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Dinamarca','Aalborg',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Francia','Nantes',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Noruega','Oslo',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Reino Unido','Oxford',TRUE);
+insert into Destinos (Pais,Ciudad,Validado) values('Suecia','Boras',TRUE);

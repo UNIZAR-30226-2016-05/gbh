@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="img/logo.png">
+
+	<title>Introducir destino</title>
+
+	<!-- Semantic UI -->
+	<link rel="stylesheet" type="text/css" href="../Semantic-UI-CSS-master/dist/semantic.min.css">
+	<script src="../Semantic-UI-CSS-masters/dist/semantic.min.js"></script>
+
+	<!-- Bootstrap core CSS -->
+	<link href="../bootstrap-3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Awesome icons-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+
+	<!-- Custom styles for this template -->
+	<link href="css/signup.css" rel="stylesheet">
+
+	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+	<script src="../bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+	<style>
+		.tablasub {
+			margin: 0 10px;
+		}
+
+		.asignatura {
+			margin-bottom: 10px;
+		}
+
+		#add {
+			float: right;
+		}
+
+		subjectName::-webkit-input-placeholder {
+			font-size: 16px;
+		}
+
+		#creditNumber::-webkit-input-placeholder {
+			font-size: 16px;
+		}
+
+		.suprimir {
+			margin-left: 3px;
+		}
+
+		.enviar {
+			margin-bottom: 10%;
+			text-align: center;
+		}
+		@media screen and (max-width : 900px) {
+			#registro{
+				margin-left:30%;
+				margin-right:10%;
+			}
+		}
+		
+		@media screen and (max-width : 690px) {
+			#registro{
+				margin-left:15%;
+				margin-right:15%;
+			}
+		}
+	</style>
+</head>
+
+<body onload="alertaInit()">
+
+	<!-- Static navbar -->
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Erasmus</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="addDestiny.html">Nuevo Destino</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sesión<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Iniciar sesión</a></li>
+							<li><a href="#">Registrar</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Modificar perfil</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Cerrar sesión</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-right" role="search" action="search.html" method="GET">
+					<div class="ui search">
+						<div class="ui icon input">
+							<input class="prompt" type="text" placeholder="Carrera..." name="navCarrera"> <i class="search icon"></i>
+						</div>
+						<div class="results"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container" id="registro">
+		<div class="row">
+			<div class="col-md-6 col-sm-7 cols-xs-6">
+
+				<form onsubmit="return submitAdvice(this);" class="form-horizontal" action="/ProyectoSoftware/ServletAddDestiny" method="POST">
+					<fieldset>
+						<div id="legend">
+							<legend class="">Formulario de introducción de destino</legend>
+						</div>
+
+						<label class="control-label" for="countryName">Pais</label>
+						<div class="form-group" style="margin-right: 0px; margin-left: 0px;">
+							<select name="countryName" class="form-control" style="height: 46px;" id="countryName">
+								<option>Elija pais</option>
+								<option>Albania</option>
+								<option>Alemania</option>
+								<option>Andorra</option>
+								<option>Austria</option>
+								<option>Bélgica</option>
+								<option>Bielorrusia</option>
+								<option>Bosnia y Herzegovina</option>
+								<option>Bulgaria</option>
+								<option>Ciudad del Vaticano</option>
+								<option>Croacia</option>
+								<option>Dinamarca</option>
+								<option>Eslovaquia</option>
+								<option>Eslovenia</option>
+								<option>España</option>
+								<option>Estonia</option>
+								<option>Finlandia</option>
+								<option>Francia</option>
+								<option>Grecia</option>
+								<option>Hungría</option>
+								<option>Irlanda</option>
+								<option>Islandia</option>
+								<option>Italia</option>
+								<option>Letonia</option>
+								<option>Liechtenstein</option>
+								<option>Lituania</option>
+								<option>Luxemburgo</option>
+								<option>Malta</option>
+								<option>Moldavia</option>
+								<option>Mónaco</option>
+								<option>Montenegro</option>
+								<option>Noruega</option>
+								<option>Países Bajos</option>
+								<option>Polonia</option>
+								<option>Portugal</option>
+								<option>Reino Unido</option>
+								<option>República Checa</option>
+								<option>República de Macedonia</option>
+								<option>Rumanía</option>
+								<option>San Marino</option>
+								<option>Serbia</option>
+								<option>Suecia</option>
+								<option>Suiza</option>
+								<option>Ucrania</option>
+							</select>
+						</div>
+
+
+						<div class="controls">
+							<p class="help-block">Nombre de pais destino</p>
+						</div>
+
+
+
+
+						<div class="control-group">
+							<label class="control-label" for="cityName">Ciudad</label>
+
+							<div class="controls">
+								<input type="text" name="cityName" id="cityName" placeholder="" class="form-control input-lg">
+								<p class="help-block">Nombre de ciudad destino</p>
+							</div>
+						</div>
+
+
+
+						<div class="control-group">
+							<label class="control-label" for="universityName">Universidad</label>
+
+							<div class="controls">
+								<input type="text" name="universityName" id="universityName" placeholder="" class="form-control input-lg">
+								<p class="help-block">Nombre de Universidad destino</p>
+							</div>
+						</div>
+
+
+
+						<label class="control-label" for="language">Idioma</label>
+						<div class="form-group" style="margin-right: 0px; margin-left: 0px;">
+							<select name="language" class="form-control" style="height: 46px;" id="language">
+								<option>Elija idioma</option>
+								<option>Alemán</option>
+								<option>Búlgaro</option>
+								<option>Checo</option>
+								<option>Croata</option>
+								<option>Danés</option>
+								<option>Eslovaco</option>
+								<option>Esloveno</option>
+								<option>Español</option>
+								<option>Estonio</option>
+								<option>Finlandés</option>
+								<option>Francés</option>
+								<option>Griego</option>
+								<option>Húngaro</option>
+								<option>Inglés</option>
+								<option>Irlandés</option>
+								<option>Italiano</option>
+								<option>Letón</option>
+								<option>Lituano</option>
+								<option>Maltés</option>
+								<option>Neerlandés</option>
+								<option>Polaco</option>
+								<option>Portugués</option>
+								<option>Rumano</option>
+								<option>Sueco</option>
+							</select>
+						</div>
+
+
+						<div class="controls">
+							<p class="help-block">Idioma en el que se imparte la carrera</p>
+						</div>
+
+
+
+						<label class="control-label" for="rama">Rama</label>
+						<div class="form-group" style="margin-right: 0px; margin-left: 0px;">
+							<select name="rama" class="form-control" style="height: 46px;" id="rama">
+								<option>Elija rama</option>
+								<option>Biología</option>
+								<option>Ciencias sociales</option>
+								<option>Ciencias de la salud</option>
+								<option>Derecho</option>
+								<option>Economía</option>
+								<option>Filología</option>
+								<option>Física</option>
+								<option>Geografía</option>
+								<option>Historia</option>
+								<option>Ingenieria</option>
+								<option>Matematicas</option>
+								<option>Química</option>
+								<option>Veterinaria</option>
+							</select>
+						</div>
+
+
+						<div class="control-group">
+							<label class="control-label" for="degreeName">Carrera</label>
+
+							<div class="controls">
+								<input type="text" id="degreeName" name="degreeName" placeholder="" class="form-control input-lg">
+								<p class="help-block">Nombre de la carrera</p>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label" for="degreeImg">Imagen</label>
+
+							<div class="controls">
+								<input type="text" id="degreeImg" name="degreeImg" placeholder="" class="form-control input-lg">
+								<p class="help-block">Url de la imagen del destino</p>
+							</div>
+						</div>
+
+						<div class="asignatura">
+							<label class="control-label" for="rama">Asignaturas</label>
+							<button type="button" name="button" class="btn btn-info btn-xs" id="add">
+								<i class="fa fa-plus" aria-hidden="true"></i>
+							</button>
+						</div>
+						<div class="table-responsive">
+							<table class="table" id="tasignaturas"></table>
+						</div>
+
+						<input type="hidden" name="numRemoved" id="numRemoved" value="0">
+
+						<p>&nbsp;</p>
+					</fieldset>
+					<div class="enviar">
+						<button type="submit" class="btn btn-success" value="Submit">Introducir destino</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script type="text/javascript">
+	var numSubjects = 0;
+	var numRemoved = 0;
+
+	$('#add')
+		.click(
+			function() {
+				numSubjects++;
+				var table = $(tasignaturas).closest('table');
+				if (table.find('input:text').length < 40) {
+					table
+						.append('<tr><td class="col-md-4"> <input type="text" name="subjectName' + numSubjects + '" id="subjectName' + numSubjects + '" placeholder="Nombre" class="form-control input-lg"/> </td>' + '<td class="col-md-2"> <input type="text" name="creditNumber' +
+							numSubjects + '" id="creditNumber' + numSubjects + '" placeholder="Créditos" class="form-control input-lg"/> </td>' + '<td class="col-md-2"> <select name="cuatriNumber' + numSubjects +
+							'" class="form-control" id="cuatriNumber' + numSubjects + '" style="height: 46px; weight: 46px;" style="margin-right: 5px;">' + '<option>Semestre</option> <option>Otoño</option> <option>Primavera</option> </select></td>' +
+							'<td class="col-md-1"> <button type="button" class="btn btn-danger" onclick="deleteRow(this)" style="height: 46px;" ><span class="glyphicon glyphicon-remove"></span> Borrar </button> </td></tr>');
+				}
+			});
+
+	$('#del').click(function() {
+		var table = $(this).closest('table');
+		if (table.find('input:text').length > 1) {
+			table.find('input:text').last().closest('tr').remove();
+		}
+
+	});
+
+	function deleteRow(btn) {
+		var row = btn.parentNode.parentNode;
+		row.parentNode.removeChild(row);
+		numRemoved++;
+		document.getElementById("numRemoved").setAttribute("value", numRemoved);
+	}
+
+	/ Adquiere el valor de los parametros de la peticion GET /
+
+	function getQueryVariable(variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split("&");
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			if (pair[0] == variable) {
+				return pair[1];
+			}
+		}
+		return (false);
+	}
+
+	//Alerta por servlet
+	function alertaInit() {
+		var err = getQueryVariable("error");
+		if (err == '1') {
+			alert('Destino no introducido, por favor rellene correctamente todos los campos');
+		}
+	}
+
+	function noBlanks() { // I'll also set it to check and make sure the second value is an integer
+
+		alert('noblanks');
+		warn = "";
+		if (getElementById(cityName) == "") {
+			warn += "Please enter city Name.\n";
+		}
+
+		if (warn != "") {
+			alert(warn);
+			return false;
+		} else {
+			alert('OK');
+			return true;
+		}
+	}
+	
+	function _getElementByPartialName(name, elementType) {
+		var elements = document.getElementsByTagName(elementType);
+		for (var i = 0; i < elements.length; i++) {
+			if (elements[i].getAttribute("name").indexOf(name) > -1) {
+				total++;
+			}
+		}
+		return total;
+	}
+
+	function submitAdvice(f) {
+		var countryname = document.getElementById("countryName").value;
+		var cityname = document.getElementById("cityName").value;
+		var universityname = document.getElementById("universityName").value;
+		var language = document.getElementById("language").value;
+		var rama = document.getElementById("rama").value;
+		var carrera = document.getElementById("degreeName").value;
+
+		if (countryname == "Elija pais") {
+			alert('Introduzca un pais');
+			return false;
+		}
+
+		if (cityname == "") {
+			alert('Introduzca un nombre de ciudad');
+			return false;
+		}
+
+		if (universityname == "") {
+			alert('Introduzca un nombre de universidad');
+			return false;
+		}
+
+		if (language == "Elija idioma") {
+			alert('Introduzca un idioma');
+			return false;
+		}
+
+		if (rama == "Elija rama") {
+			alert('Introduzca una rama');
+			return false;
+		}
+
+		if (carrera == "") {
+			alert('Introduzca una carrera');
+			return false;
+		}
+
+		var subjctEmpty=0;
+		for (var i = 1; i <= numSubjects; i++) {
+			if(subjctEmpty==0){
+				var num=i.toString();
+				var nameSubject="subjectName".concat(num);
+				var subject = document.getElementById(nameSubject);
+				var creditName="creditNumber".concat(num);
+				var credit=document.getElementById(creditName);
+				var cuatriName="cuatriNumber".concat(num);
+				var cuatri=document.getElementById(cuatriName);
+				if ((subject != null ) || ( credit != null ) || ( cuatri != null)) {
+					if ((subject.value == '') || ( credit.value == '') || (  cuatri.value == 'Semestre')) {
+						alert('Rellene las asignaturas por favor');
+						subjctEmpty=1;
+						return false;
+					}
+				}
+			}
+		}	
+	}
+
+	function validarSiNumero(numero) {
+		if (!/^([0-9])*$/.test(numero)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
+
+</html>

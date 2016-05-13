@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
 import objetos.Comentario;
@@ -19,15 +20,14 @@ public class ComentarioDAO {
 	public static void insert(Comentario com) throws SQLException {
 		Connection conecta = null;
 		Statement stmt = null;
-		boolean existe=false;
 		try {
 			conecta = AccesoBase.getDBConnection();
 			
 			stmt = conecta.createStatement();
 			
-			String query="insert into Comentarios(idComentario, Destino, Usuario,"
-					+ " Comentario) values ("+ com.getId()+","+ com.getDestino() +",'"+
-						com.getUsuario()+"','"+ com.getTexto() +"')";
+			String query="insert into Comentarios(Destino, Usuario, Comentario) "
+					+ "values (" + com.getDestino() +",'"+ com.getMail()
+					+ "','" + com.getTexto() +"')";
 				stmt.executeUpdate(query);
 				
 		} catch (SQLException e) {
@@ -49,28 +49,45 @@ public class ComentarioDAO {
 	/**
 	 * Devuelve el usuario con el mail indicado
 	 */
-	public static Usuario selectUsuario(String mail) throws SQLException {
+	public static ArrayList<Comentario> selectByDestino(int destino) throws SQLException {
 		Connection conecta = null;
 		Statement stmt = null;
-		Usuario usuario = null;
+		ArrayList<Comentario> result = new ArrayList<Comentario>();
 
 		try {
 			conecta = AccesoBase.getDBConnection();
 			
 			stmt = conecta.createStatement();
 			
-			String query = "select * from "
-					+ "Usuarios where Correo='"+ mail + "'";
+			String query = "SELECT Correo, Nombre, Contraseña, Admin, B.Time as tUsr, "
+					+ "idComentario, Destino, Comentario, A.Time as tComment "
+					+ "FROM Comentarios A, Usuarios B where "
+					+ "correo = usuario AND destino= " + destino 
+					+ " ORDER BY A.Time DESC";
 			// execute query
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
+				// Datos del usuario
 				String nombre = rs.getString("Nombre");
+				String mail = rs.getString("Correo");
 				String passwd = rs.getString("Contraseña");
 				int admin = rs.getInt("Admin");
-				String date = rs.getString("Time");
+				String d = rs.getString("tUsr");
 				
-				Date fecha = Fecha.mySQLtoDate(date);
-				usuario = new Usuario(mail, nombre, passwd, admin, fecha);
+				Date f = Fecha.mySQLtoDate(d);
+				Usuario usr = new Usuario(mail, nombre, passwd, admin, f);
+				
+				
+				// Datos del comentario
+				int id = rs.getInt("idComentario");
+				int dest = rs.getInt("Destino");
+				String texto = rs.getString("Comentario");
+				String dComment = rs.getString("tComment");
+				// Parse fecha
+				Date fecha = Fecha.mySQLtoDate(dComment);
+				
+				Comentario c = new Comentario(id, destino, usr, texto, fecha);
+				result.add(c);
 	        }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +103,7 @@ public class ComentarioDAO {
 			}
 
 		}
-		return usuario;
+		return result;
 	}
 	
 }

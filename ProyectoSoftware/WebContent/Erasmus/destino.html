@@ -36,13 +36,16 @@
 			text-align: left;
 			width: 40%;
 		}
+		.admin {
+			display: inline-block;
+		}
 	</style>
 </head>
 <script src="../angular-1.5.0/angular.min.js"></script>
 <!-- NAVBAR
 ================================================== -->
 
-<body>
+<body ng-app="myApp" ng-controller="destinoControl">
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
@@ -62,18 +65,22 @@
 					<li><a href="about.html">About</a></li>
 					<li><a href="contact.html">Contact</a></li>
 					<li><a href="addDestiny.html">Nuevo Destino</a></li>
+					<li ng-show="(adminVal) > 0">
+						<a href="admin.html">Administrador</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<li ng-show="(userMail) != null && (userMail) != ''">
+						<a href="/ProyectoSoftware/CerrarSesion">Cerrar Sesión</a>
+					</li>
+					<li class="dropdown" ng-show="(userMail) == null || (userMail) == ''">
+						<a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">Sesión<span class="caret"></span></a>
+						aria-expanded="false">Sesión<span class="caret"></span>
+					</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Iniciar sesión</a></li>
-							<li><a href="#">Registrar</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Modificar perfil</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Cerrar sesión</a></li>
+							<li><a href="/ProyectoSoftware/Erasmus/signin.html">Iniciar sesión</a></li>
+							<li><a href="/ProyectoSoftware/Erasmus/signup.html">Registrar</a></li>
 						</ul></li>
 				</ul>
 				<form class="navbar-form navbar-right" role="search"
@@ -93,7 +100,8 @@
 
 	<!-- Carousel
     ================================================== -->
-	<div ng-app="myApp" ng-controller="destinoControl">
+	<!--<div ng-app="myApp" ng-controller="destinoControl">-->
+	<div>
 		<div ng-repeat="x in myData">
 			<div class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner" role="listbox">
@@ -122,7 +130,7 @@
 							style="font-size: 25px; color: rgb(144, 144, 144);"> |
 							{{x.Genero}} | {{x.Idioma}}</span>
 					</h2>
-					<!--  No para esta iteracion
+
 					<p>
 						<span style="font-size: 25px; color: rgb(144, 144, 144);">Valoración
 							de Usuarios: </span>
@@ -138,7 +146,7 @@
 							id="rating1" type="radio" name="rating" value="1"> <label
 							for="rating1">1</label>
 						</span>
-					</div> -->
+					</div>
 					<br><br>
 				</div>
 			</div>
@@ -178,18 +186,21 @@
 				<!-- Blog Comments -->
 				<hr>
 				<!-- Comments Form -->
-				<div class="well" ng-show="(userMail) != null ">
-
+				<div class="well" ng-show="(userMail) != null && (userMail) != ''">
 						<h4>Deja un comentario:</h4>
-						<form role="form">
+						<form role="form" action="/ProyectoSoftware/Comentar" method="post">
 								<div class="form-group">
-										<textarea class="form-control" rows="3"></textarea>
+										<textarea name="comentario" class="form-control" rows="3"></textarea>
 								</div>
+								<!-- Se ocultan datos necesarios para el servlet -->
+								<input type="hidden" name="mail" value={{userMail}}>
+								<input type="hidden" name="destino" value={{destino}}>
+
 								<button type="submit" class="btn btn-primary">Enviar</button>
 						</form>
 				</div>
 
-				<div class="well" ng-show="(userMail) == null ">
+				<div class="well" ng-show="(userMail) == null || (userMail) == ''">
 						<h4>Necesitas registrate o iniciar sesión para poder comentar</h4>
 						<a href="signin.html" class="btn btn-success">Iniciar Sesión</a>
 						<!-- Espacio -->
@@ -200,36 +211,29 @@
 				<hr>
 
 				<!-- Posted Comments -->
+				<div ng-repeat="x in myData3">
 
-				<!-- Comentario -->
-				<div class="media">
-						<!-- Icono del usuario, deshabilitado -->
-						<!--<a class="pull-left" href="#">
-								<img class="media-object" src="http://placehold.it/64x64" alt="">
-						</a>-->
-						<div class="media-body">
-								<h4 class="media-heading">Nombre Apellido
-										<small>August 25, 2014 at 9:30 PM</small>
-								</h4>
-								Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-						</div>
-				</div>
-				<!-- Cierre comentario -->
+					<!-- Comentario -->
+					<div class="media">
+							<!-- Icono del usuario, deshabilitado -->
+							<!--<a class="pull-left" href="#">
+									<img class="media-object" src="http://placehold.it/64x64" alt="">
+							</a>-->
+							<div class="media-body">
+									<h4 class="media-heading">{{ x.Nombre }}
+											<div ng-show="(x.Admin) > 0" class="admin">
+												<small>Administrador | </small>
+											</div>
+											<small>{{ x.Time }}</small>
+									</h4>
+									{{ x.Texto }}
+							</div>
+					</div>
+					<!-- Cierre comentario -->
+					<br>
 
-				<!-- Comentario -->
-				<div class="media">
-						<!-- Icono del usuario, deshabilitado -->
-						<!--<a class="pull-left" href="#">
-								<img class="media-object" src="http://placehold.it/64x64" alt="">
-						</a>-->
-						<div class="media-body">
-								<h4 class="media-heading">Nombre Apellido
-										<small>August 25, 2014 at 9:30 PM</small>
-								</h4>
-								Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-						</div>
 				</div>
-				<!-- Cierre comentario -->
+
 			</div>
 			<hr>
 			<br>

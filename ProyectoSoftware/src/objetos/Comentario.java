@@ -9,14 +9,15 @@ public class Comentario {
 	
 	private int id;
 	private int destino;
-	private String usuario;
+	private String mail;
+	private Usuario usuario;
 	private String texto;
 	private Date time;
 	
 	/**
 	 * Método constructor
 	 */
-	public Comentario(int idComentario, int destino, String usuario,
+	public Comentario(int idComentario, int destino, Usuario usuario,
 			String texto, Date time){
 		this.id = idComentario;
 		this.destino = destino;
@@ -29,13 +30,12 @@ public class Comentario {
 	/**
 	 * Método constructor sin identificador
 	 */
-	public Comentario(int destino, String usuario,
-			String texto, Date time){
+	public Comentario(int destino, String mail, String texto){
 		this.id = 0;
 		this.destino = destino;
-		this.usuario = usuario;
+		this.mail = mail;
 		this.texto = texto;
-		this.time = time;
+		this.time = null;
 		
 	}
 	
@@ -48,7 +48,10 @@ public class Comentario {
 		
 		obj.put("Id", id);
 		obj.put("Destino", destino);
-		obj.put("Usuario", usuario);
+		//obj.put("Usuario", usuario);
+		obj.put("Nombre", usuario.getNombre());
+		obj.put("Mail", usuario.getMail());
+		obj.put("Admin", usuario.getAdmin());
 		obj.put("Texto", texto);
 		// Fecha en formato especial para la web
 		obj.put("Time", Fecha.getFechaToWeb(time));
@@ -60,10 +63,10 @@ public class Comentario {
 	 * Devuelve un String en formato JSON con el contenido de
 	 * los usuarios
 	 */
-	public static String toJSON(ArrayList<Asignaturas> vector){
+	public static String toJSON(ArrayList<Comentario> vector){
 		
 		String rs = "{\"comentarios\": [\n";
-		for (Asignaturas d: vector){
+		for (Comentario d: vector){
 			
 			rs += d.toJSON() + ",\n";
 		}
@@ -87,8 +90,12 @@ public class Comentario {
 		return destino;
 	}
 
-	public String getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
+	}
+	
+	public String getMail() {
+		return mail;
 	}
 
 	public String getTexto() {
@@ -99,25 +106,6 @@ public class Comentario {
 		return time;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setDestino(int destino) {
-		this.destino = destino;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
-
-	public void setTime(Date time) {
-		this.time = time;
-	}
 	
 
 }

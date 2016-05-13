@@ -23,7 +23,7 @@ function getCookie(cname) {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
+            return c.substring(name.length + 1, c.length - 1);
         }
     }
     return "";
@@ -36,7 +36,9 @@ app.controller('destinoControl', function($scope, $http, $location) {
     .then(function(response) {
       $scope.myData = response.data.destino;
       $scope.myData2 = response.data.asignatura;
-
+      $scope.myData3 = response.data.comentarios;
+      $scope.destino = val;
     });
   $scope.userMail = getCookie('userMail');
+  $scope.adminVal = getCookie('admin');
 });

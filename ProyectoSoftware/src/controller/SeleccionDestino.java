@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gateway.AsignaturaDAO;
+import gateway.ComentarioDAO;
 import gateway.DestinoDAO;
 import objetos.Asignaturas;
 import objetos.Busqueda;
+import objetos.Comentario;
 import objetos.Destino;
 
 /**
@@ -57,13 +59,17 @@ public class SeleccionDestino extends HttpServlet {
 	private void buscaPrivado(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
 		String carrera = request.getParameter("idDestino");
+		int destino = Integer.parseInt(carrera);
 		System.out.println(">" + carrera);
 		
 		ArrayList<Destino> uno = null;
 		ArrayList<Asignaturas> dos = null;
+		ArrayList<Comentario> tres = null;
 		try {
-			uno = DestinoDAO.buscarDestinoId(carrera, null, null);
-			dos = AsignaturaDAO.mostrarAsignatura(carrera);
+			uno = DestinoDAO.buscarDestinoId(destino, null, null);
+			dos = AsignaturaDAO.mostrarAsignatura(destino);
+			tres = ComentarioDAO.selectByDestino(destino);
+			//tres = ComentarioDAO
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,12 +78,16 @@ public class SeleccionDestino extends HttpServlet {
 		String result = Destino.toJSON(uno); 
 		result =result.substring(0, result.length()-1);
 		String result2 = Asignaturas.toJSON(dos);
-		result2 =result2.substring(1, result2.length());
+		result2 =result2.substring(1, result2.length()-1);
+		String result3 = Comentario.toJSON(tres);
+		result3 =result3.substring(1, result3.length());
 			
+		// Debug
 		System.out.println(result);
 		System.out.println(result2);
+		System.out.println(result3);
 		
-		String respuesta = result + "," + result2;
+		String respuesta = result + "," + result2 + ", " + result3;
 		
 		response.setContentType("application/json");
 		// Get the printwriter object from response to write the required json object to the output stream      

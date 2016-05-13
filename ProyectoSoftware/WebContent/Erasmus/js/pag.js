@@ -1,3 +1,20 @@
+// Devuelve el valor de una cookie,
+// en caso de no encotrarla devuevle una cadena vacía
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length + 1, c.length - 1);
+        }
+    }
+    return "";
+}
+
 /* Adquiere el valor de los parametros de la peticion GET */
 function getQueryVariable(variable) {
 	var query = window.location.search.substring(1);
@@ -15,7 +32,10 @@ function getQueryVariable(variable) {
 var myapp = angular.module('sampleapp', []);
 
 myapp.controller('samplecontoller', function($scope, $http) {
-
+	// Cookies de usuario
+  $scope.userMail = getCookie('userMail');
+  $scope.adminVal = getCookie('admin');
+	
 	$scope.showData = function() {
 
 		$scope.curPage = 0;
@@ -39,8 +59,8 @@ myapp.controller('samplecontoller', function($scope, $http) {
 				: false;
 		$scope.predicate = predicate;
 	};
-	
-	
+
+
     $scope.filter = {};
 
     $scope.getCategories = function () {
@@ -50,7 +70,7 @@ myapp.controller('samplecontoller', function($scope, $http) {
             return arr.indexOf(w) === idx;
         });
     };
-    
+
     $scope.getPais = function () {
         return ($scope.datalists || []).map(function (w) {
             return w.Pais;
@@ -58,12 +78,12 @@ myapp.controller('samplecontoller', function($scope, $http) {
             return arr.indexOf(w) === idx;
         });
     };
-    
+
     $scope.filterByCategory = function (variable) {
         return $scope.filter[variable.Idioma] || noFilter($scope.filter) || $scope.filter[variable.Pais];
     };
-    
-    
+
+
     function noFilter(filterObj) {
         for (var key in filterObj) {
             if (filterObj[key]) {
@@ -79,8 +99,6 @@ angular.module('sampleapp').filter('pagination', function() {
 	return function(input, start) {
 		start = +start;
 		return input.slice(start);
-	}; 
-			
+	};
+
 });
-
-

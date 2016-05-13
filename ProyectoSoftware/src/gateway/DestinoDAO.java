@@ -146,7 +146,7 @@ public class DestinoDAO {
 		return lista;
 	}
 	
-	public static ArrayList<Destino> buscarDestinoId(String busqueda, ArrayList<String> carac, String orderby) throws SQLException {
+	public static ArrayList<Destino> buscarDestinoId(int busqueda, ArrayList<String> carac, String orderby) throws SQLException {
 		Connection conecta = null;
 		Statement stmt = null;
 		ArrayList<Destino> lista = new ArrayList<Destino>();
@@ -155,19 +155,6 @@ public class DestinoDAO {
 			conecta = AccesoBase.getDBConnection();
 			
 			stmt = conecta.createStatement();
-			int j=0;
-			String opciones="";
-			if (carac != null){
-				for (String i: carac){
-					if (j==0){
-						opciones="where "+i+" ";
-						j++;
-					}
-					else{
-						opciones+="or "+i+" ";
-					}
-				}
-			}
 			String query = "";
 			
 			// if (carac == null);

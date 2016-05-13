@@ -53,7 +53,7 @@ public class AsignaturaDAO {
 		}
 	}
 	
-	public static ArrayList<Asignaturas> mostrarAsignatura(String carrera) throws SQLException {
+	public static ArrayList<Asignaturas> mostrarAsignatura(int carrera) throws SQLException {
 		Connection conecta = null;
 		Statement stmt = null;
 		ArrayList<Asignaturas> lista = new ArrayList<Asignaturas>();

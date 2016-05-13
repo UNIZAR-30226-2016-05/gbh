@@ -91,9 +91,10 @@
       }
     </style>
   </head>
+  <script src="../angular-1.5.0/angular.min.js"></script>
 <!-- NAVBAR
 ================================================== -->
-  <body>
+  <body ng-app="myApp" ng-controller="navCtrl">
     <div class="navbar-wrapper">
       <div class="container">
 
@@ -113,20 +114,24 @@
       				<ul class="nav navbar-nav">
       					<li><a href="home.html">Home</a></li>
       					<li><a href="about.html">About</a></li>
-      					<li><a href="contact.html">Contact</a></li>
+      					<li class="active"><a href="contact.html">Contact</a></li>
       					<li><a href="addDestiny.html">Nuevo Destino</a></li>
+      					<li ng-show="(adminVal) > 0">
+      						<a href="admin.html">Administrador</a>
+      					</li>
       				</ul>
       				<ul class="nav navbar-nav navbar-right">
-      					<li class="dropdown"><a href="#" class="dropdown-toggle"
+      					<li ng-show="(userMail) != null && (userMail) != ''">
+      						<a href="/ProyectoSoftware/CerrarSesion">Cerrar Sesión</a>
+      					</li>
+      					<li class="dropdown" ng-show="(userMail) == null || (userMail) == ''">
+      						<a href="#" class="dropdown-toggle"
       						data-toggle="dropdown" role="button" aria-haspopup="true"
-      						aria-expanded="false">Sesión<span class="caret"></span></a>
+      						aria-expanded="false">Sesión<span class="caret"></span>
+      					</a>
       						<ul class="dropdown-menu">
-      							<li><a href="#">Iniciar sesión</a></li>
-      							<li><a href="#">Registrar</a></li>
-      							<li role="separator" class="divider"></li>
-      							<li><a href="#">Modificar perfil</a></li>
-      							<li role="separator" class="divider"></li>
-      							<li><a href="#">Cerrar sesión</a></li>
+      							<li><a href="/ProyectoSoftware/Erasmus/signin.html">Iniciar sesión</a></li>
+      							<li><a href="/ProyectoSoftware/Erasmus/signup.html">Registrar</a></li>
       						</ul></li>
       				</ul>
       				<form class="navbar-form navbar-right" role="search"
@@ -217,7 +222,7 @@
         <p>&copy; 2016 GBH Development. &middot; <a href="about.html">About</a> &middot; <a href="contact.html">Contact</a></p>
       </footer>
 
-
+      <script src="js/nav.js"></script>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -226,15 +231,15 @@
     <script src="../bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
-   	
+
    	<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 	<script type="text/javascript">
 	    window.cookieconsent_options = {"message":"Este sitio web utiliza cookies para asegurar la mejor experiencia en nuestra web",
 	    			"dismiss":"Entendido!","learnMore":"More info","link":null,"theme":"dark-bottom"};
 	</script>
-	
+
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
 	<!-- End Cookie Consent plugin -->
-	
+
   </body>
 </html>

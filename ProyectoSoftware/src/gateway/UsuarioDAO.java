@@ -81,6 +81,7 @@ public class UsuarioDAO {
 				String date = rs.getString("Time");
 				
 				Date fecha = Fecha.mySQLtoDate(date);
+				
 				usuario = new Usuario(mail, nombre, passwd, admin, fecha);
 	        }
 		} catch (SQLException e) {

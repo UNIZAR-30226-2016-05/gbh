@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import org.json.*;
 
 public class Destino {
-	protected String carrera;
-	protected String universidad;
-	protected String pais;
-	protected String ciudad;
-	protected String idioma;
-	protected String genero;
-	protected String img;
+	private String carrera;
+	private String universidad;
+	private String pais;
+	private String ciudad;
+	private String idioma;
+	private String genero;
+	private String img;
 	private int id;
+	private int val;
 	
 	public Destino (int id, String carrera, String universidad, String ciudad, String pais, String idioma, String genero, String img){
 		this.id = id;
@@ -23,6 +24,20 @@ public class Destino {
 		this.idioma=idioma;
 		this.genero=genero;
 		this.img=img;
+		this.val = 0;
+	}
+	
+	public Destino (int id, String carrera, String universidad, String ciudad, 
+			String pais, String idioma, String genero, String img, int v){
+		this.id = id;
+		this.carrera = carrera;
+		this.universidad=universidad; 
+		this.ciudad=ciudad;
+		this.pais=pais;
+		this.idioma=idioma;
+		this.genero=genero;
+		this.img=img;
+		this.val = v;
 	}
 	
 	public String toString(){
@@ -43,6 +58,7 @@ public class Destino {
 		obj.put("Idioma", idioma);
 		obj.put("Genero", genero);
 		obj.put("Img", img);
+		obj.put("Valoracion", val);
 		
 		return obj.toString();
 	}

@@ -39,6 +39,9 @@
 		.admin {
 			display: inline-block;
 		}
+		#val {
+			display: inline-block;
+		}
 	</style>
 </head>
 <script src="../angular-1.5.0/angular.min.js"></script>
@@ -135,18 +138,31 @@
 						<span style="font-size: 25px; color: rgb(144, 144, 144);">Valoración
 							de Usuarios: </span>
 					</p>
-					<div class="p_rating">
-						<span class="starRating" id="rate"> <input id="rating5"
-							type="radio" name="rating" value="5"> <label
-							for="rating5">5</label> <input id="rating4" type="radio"
-							name="rating" value="4"> <label for="rating4">4</label> <input
-							id="rating3" type="radio" name="rating" value="3" checked>
-							<label for="rating3">3</label> <input id="rating2" type="radio"
-							name="rating" value="2"> <label for="rating2">2</label> <input
-							id="rating1" type="radio" name="rating" value="1"> <label
-							for="rating1">1</label>
-						</span>
-					</div>
+					<form action="/ProyectoSoftware/Valorar" method="post">
+						<div class="p_rating">
+							<span class="starRating" id="rate">
+								<input id="rating5" type="radio" name="rating" value="5">
+								<label for="rating5">5</label>
+								<input id="rating4" type="radio" name="rating" value="4">
+								<label for="rating4">4</label>
+								<input id="rating3" type="radio" name="rating" value="3">
+								<label for="rating3">3</label>
+								<input id="rating2" type="radio" name="rating" value="2">
+								<label for="rating2">2</label>
+								<input id="rating1" type="radio" name="rating" value="1">
+								<label for="rating1">1</label>
+							</span>
+							<input type="hidden" name="mail" value={{userMail}}>
+							<input type="hidden" name="destino" value={{destino}}>
+							<div ng-show="(userMail) != null && (userMail) != ''" id="val">
+								<!-- Espacio -->
+								&nbsp
+								<button type="submit" class="ui basic button small">Valorar</button>
+								<!-- Carga la valoración actual -->
+								<div ng-init="check()"></div>
+							</div>
+						</div>
+					</form>
 					<br><br>
 				</div>
 			</div>

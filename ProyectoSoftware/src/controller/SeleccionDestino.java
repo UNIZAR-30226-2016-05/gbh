@@ -65,11 +65,12 @@ public class SeleccionDestino extends HttpServlet {
 		ArrayList<Destino> uno = null;
 		ArrayList<Asignaturas> dos = null;
 		ArrayList<Comentario> tres = null;
+		int rate = 0;
 		try {
 			uno = DestinoDAO.buscarDestinoId(destino, null, null);
 			dos = AsignaturaDAO.mostrarAsignatura(destino);
 			tres = ComentarioDAO.selectByDestino(destino);
-			//tres = ComentarioDAO
+			rate = DestinoDAO.selectValoracion(destino);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,15 +80,15 @@ public class SeleccionDestino extends HttpServlet {
 		result =result.substring(0, result.length()-1);
 		String result2 = Asignaturas.toJSON(dos);
 		result2 =result2.substring(1, result2.length()-1);
+		String val = "\"Valoracion\": " + rate;
 		String result3 = Comentario.toJSON(tres);
 		result3 =result3.substring(1, result3.length());
+		
+		String respuesta = result + "," + result2 + ", " + val
+				+ ", " + result3;
 			
 		// Debug
-		System.out.println(result);
-		System.out.println(result2);
-		System.out.println(result3);
-		
-		String respuesta = result + "," + result2 + ", " + result3;
+		System.out.println(respuesta);
 		
 		response.setContentType("application/json");
 		// Get the printwriter object from response to write the required json object to the output stream      

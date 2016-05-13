@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gateway.ComentarioDAO;
+import gateway.UsuarioDAO;
 import objetos.Comentario;
 
 /**
- * Servlet implementation class Comentar
+ * Servlet implementation class Valorar
  */
-@WebServlet("/Comentar")
-public class Comentar extends HttpServlet {
+@WebServlet("/Valorar")
+public class Valorar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Comentar() {
+    public Valorar() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +33,7 @@ public class Comentar extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		comenta(request, response);
+		valorar(request, response);
 	}
 
 	/**
@@ -44,20 +45,21 @@ public class Comentar extends HttpServlet {
 	}
 	
 	/**
-	 * Inseta un nuevo comentario y devuelve al usuario a la página en la que estaba
+	 * Inseta o actualiza una valoración y devuelve al usuario a la página en la que estaba
 	 */
-	private void comenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void valorar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mail = request.getParameter("mail");
-		String texto = request.getParameter("comentario");
+		String v = request.getParameter("rating");
+		int val = Integer.parseInt(v);
 		String d = request.getParameter("destino");
 		int destino = Integer.parseInt(d);
 		
-		// Crear el nuevo comentario
-		Comentario nuevo = new Comentario(destino, mail, texto);
+		// Debug
+		System.out.println(mail + " - " + destino + " - " + val);
 		
 		// Introducirlo a la base
 		try {
-			ComentarioDAO.insert(nuevo);
+			UsuarioDAO.insertValoracion(mail, destino, val);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

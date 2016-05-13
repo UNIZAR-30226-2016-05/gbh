@@ -38,7 +38,11 @@ app.controller('destinoControl', function($scope, $http, $location) {
       $scope.myData2 = response.data.asignatura;
       $scope.myData3 = response.data.comentarios;
       $scope.destino = val;
+      $scope.rating = response.data.Valoracion;
     });
   $scope.userMail = getCookie('userMail');
   $scope.adminVal = getCookie('admin');
+  $scope.check = function(){
+    document.getElementById('rating' + $scope.rating).checked = true;
+  }
 });

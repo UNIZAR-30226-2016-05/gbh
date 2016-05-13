@@ -58,6 +58,53 @@ public class UsuarioDAO {
 	}
 	
 	/**
+	 * Inserta o actualiza una valoración
+	 */
+	public static void insertValoracion(String usr, int destino, int val)
+			throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		boolean existe=false;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			//Comprobar si existe 
+			String query="select * from Valoraciones where "
+					+ "Usuario='"+ usr +"' AND Destino=" + destino;
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				existe=true;
+	        }
+			
+			if(!existe){
+				query="insert into Valoraciones (Usuario, Destino, Valoracion)"
+					+ "values ('"+usr+"',"+ destino +","+ val + ")";
+				stmt.executeUpdate(query);
+			} else {
+				query="update Valoraciones SET "
+						+ "Valoracion=" + val + " "
+						+ "WHERE Usuario='"+ usr+"' AND "
+						+ "Destino=" + destino;
+					stmt.executeUpdate(query);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+	}
+	
+	/**
 	 * Devuelve el usuario con el mail indicado
 	 */
 	public static Usuario selectUsuario(String mail) throws SQLException {

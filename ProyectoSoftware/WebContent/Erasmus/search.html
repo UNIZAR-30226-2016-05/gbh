@@ -21,6 +21,9 @@
 	href="../Semantic-UI-CSS-master/dist/semantic.min.css">
 <script src="../Semantic-UI-CSS-masters/dist/semantic.min.js"></script>
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 <!-- Custom styles for this template -->
 <link href="css/dashboard.css" rel="stylesheet">
 <link href="css/carousel.css" rel="stylesheet">
@@ -151,17 +154,24 @@ a:link {
 								<li class="active"><a href="#">Filtrar
 									<span class="sr-only">(current)</span>
 								</li>
-								<li><a href="#">Valoración <span class="sr-only"></span></a>
+								<li>
+									<a href="#">Valoración <span class="sr-only"></span> &nbsp &nbsp
+										<div class="pull-right">
+											<span class="glyphicon glyphicon-remove-sign" ng-click="setStars(0)"></span>
+										</div>
+									</a>
 									<div class="p_rating">
-										<span class="starRating" id="rate"> <input id="rating5"
-											type="radio" name="rating" value="5"> <label
-											for="rating5">5</label> <input id="rating4" type="radio"
-											name="rating" value="4"> <label for="rating4">4</label>
-											<input id="rating3" type="radio" name="rating" value="3"
-											checked> <label for="rating3">3</label> <input
-											id="rating2" type="radio" name="rating" value="2"> <label
-											for="rating2">2</label> <input id="rating1" type="radio"
-											name="rating" value="1"> <label for="rating1">1</label>
+										<span class="starRating" id="rate">
+											<input id="rating5" type="radio" name="rating" value="5" ng-click="setStars(5)">
+											<label for="rating5">5</label>
+											<input id="rating4" type="radio" name="rating" value="4" ng-click="setStars(4)">
+											<label for="rating4">4</label>
+											<input id="rating3" type="radio" name="rating" value="3" ng-click="setStars(3)">
+											<label for="rating3">3</label>
+											<input id="rating2" type="radio" name="rating" value="2" ng-click="setStars(2)">
+											<label for="rating2">2</label>
+											<input id="rating1" type="radio" name="rating" value="1" ng-click="setStars(1)">
+											<label for="rating1">1</label>
 										</span>
 									</div></li>
 								<li><a href="#" data-toggle="collapse"
@@ -190,6 +200,7 @@ a:link {
 
 
 					<h1 class="page-header" id="linea">Búsqueda</h1>
+					<i class="fa fa-eraser" aria-hidden="true"></i>
 					<div class="page-header ordenacion">
 						Ordenar por: &nbsp
 						<button class="ui basic button mini" ng-click="order('Pais')">País</button>
@@ -207,7 +218,7 @@ a:link {
 
 					<div class="row placeholders">
 						<div
-							ng-repeat="w in filtered=(datalists | filter:filterByCategory) | orderBy:predicate | pagination: curPage * pageSize | limitTo: pageSize">
+							ng-repeat="w in filtered=(datalists | filter:filterByCategory | filter:filterByStars) | orderBy:predicate | pagination: curPage * pageSize | limitTo: pageSize">
 							<div class="col-xs-6 col-sm-3 placeholder">
 								<a
 									href="/ProyectoSoftware/Erasmus/destino.html?idDestino={{w.Id}}">

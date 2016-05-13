@@ -5,8 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
+import objetos.Comentario;
 import objetos.Destino;
+import objetos.Fecha;
+import objetos.Usuario;
 
 public class DestinoDAO {
 	
@@ -125,7 +129,9 @@ public class DestinoDAO {
 				idioma = rs.getString("Idioma");
 				genero = rs.getString("Rama");
 				img= rs.getString("Imagen");
-	            Destino aux = new Destino(id,carrera, universidad, ciudad, pais, idioma, genero, img);
+				int val = selectValoracion(id);
+	            Destino aux = new Destino(id,carrera, universidad, ciudad, pais,
+	            		idioma, genero, img, val);
 	            lista.add(aux);
 	            System.out.println(aux.toString());
 	        }
@@ -290,5 +296,48 @@ public class DestinoDAO {
 
 		}
 		return idCarrera;
+	}
+	
+	/**
+	 * Devuelve el usuario con el mail indicado
+	 */
+	public static int selectValoracion(int destino) throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		Double d = 0.0;
+		
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			
+			String query = "select sum(valoracion)/count(valoracion) as Rate, Destino "
+					+ "from Valoraciones WHERE destino=" + destino + " " 
+					+ "group by destino";
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				// Datos de la consulta
+				d = rs.getDouble("Rate");
+	        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		if (d == 0.0) return 0;
+		else {
+			return d.intValue();
+		}
 	}
 }

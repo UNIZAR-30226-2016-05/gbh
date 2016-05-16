@@ -58,6 +58,7 @@ public class InicioSesion extends HttpServlet {
 		// Comprobar si el usuario esta en la base
 		try {
 			usr = UsuarioDAO.selectUsuario(mail);
+			System.out.println(usr);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

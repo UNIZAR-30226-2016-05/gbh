@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import org.json.*;
 
 public class Destino {
-	private String carrera;
-	private String universidad;
-	private String pais;
-	private String ciudad;
-	private String idioma;
-	private String genero;
-	private String img;
+	protected String carrera;
+	protected String universidad;
+	protected String pais;
+	protected String ciudad;
+	protected String idioma;
+	protected String genero;
+	protected String img;
 	private int id;
 	private int val;
 	
@@ -69,6 +69,26 @@ public class Destino {
 	public static String toJSON(ArrayList<Destino> vector){
 		
 		String rs = "{\"destino\": [\n";
+		for (Destino d: vector){
+			
+			rs += d.toJSON() + ",\n";
+		}
+		
+		// Consulta vacia?
+		if (!vector.isEmpty()){
+			int end = rs.lastIndexOf(',');
+			rs = rs.substring(0, end);	// Elimina la última coma puesta
+		}
+		
+		return rs + "\n]}";
+	}
+	
+	/**
+	 * Devuelve un String en formato JSON con el contenido del destino
+	 */
+	public static String toJSON1(ArrayList<Destino> vector){
+		
+		String rs = "{\"carrera\": [\n";
 		for (Destino d: vector){
 			
 			rs += d.toJSON() + ",\n";

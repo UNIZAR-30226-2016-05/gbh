@@ -5,12 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
-import objetos.Comentario;
 import objetos.Destino;
-import objetos.Fecha;
-import objetos.Usuario;
 
 public class DestinoDAO {
 	
@@ -296,6 +292,111 @@ public class DestinoDAO {
 
 		}
 		return idCarrera;
+	}
+	
+	public static ArrayList<Destino> selectDestinoSinValidar() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		ArrayList<Destino> lista = new ArrayList<Destino>();
+
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			
+			String query = "";
+			
+			query = "select Pais, Ciudad from Destinos where Validado = 0";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			int id=0;
+			String carrera = "";
+            String universidad = "";
+            String ciudad = "";
+            String pais = "";
+            String idioma = "";
+            String genero = "";
+            String img = "";
+			while (rs.next()) {
+				ciudad = rs.getString("Ciudad");
+				pais = rs.getString("Pais");
+	            Destino aux = new Destino(id,carrera, universidad, ciudad, pais, idioma, genero, img);
+	            lista.add(aux);
+	            System.out.println(aux.toString());
+	        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return lista;
+	}
+	
+	public static ArrayList<Destino> selectCarreraSinValidar() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		ArrayList<Destino> lista = new ArrayList<Destino>();
+
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			
+			String query = "";
+			
+			query = "select A.idCarrera, A.Carrera, A.Universidad, D.Ciudad, D.Pais, A.Idioma, A.Rama, "
+					+ "A.Imagen from Carrera A, Destinos D where A.Validado = 0 and idDestino=A.Destino";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			int id=0;
+			String carrera = "";
+            String universidad = "";
+            String ciudad = "";
+            String pais = "";
+            String idioma = "";
+            String genero = "";
+            String img = "";
+			while (rs.next()) {
+				id = rs.getInt("idCarrera");
+				carrera = rs.getString("Carrera");
+				universidad = rs.getString("Universidad");
+				ciudad = rs.getString("Ciudad");
+				pais = rs.getString("Pais");
+				idioma = rs.getString("Idioma");
+				genero = rs.getString("Rama");
+				img= rs.getString("Imagen");
+	            Destino aux = new Destino(id,carrera, universidad, ciudad, pais, idioma, genero, img);
+	            lista.add(aux);
+	            System.out.println(aux.toString());
+	        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return lista;
 	}
 	
 	/**

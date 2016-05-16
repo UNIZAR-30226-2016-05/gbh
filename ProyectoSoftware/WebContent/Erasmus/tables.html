@@ -35,7 +35,9 @@
 
 </head>
 
-<body>
+<script src="../angular-1.5.0/angular.min.js"></script>
+
+<body ng-app="myApp" ng-controller="adminTablesControl">
 
     <div id="wrapper">
 
@@ -115,25 +117,15 @@
                           <table class="table table-bordered table-hover table-striped">
                               <thead>
                                   <tr>
-                                      <th>Destino</th>
+                                      <th>Ciudad</th>
                                       <th>País</th>
                                       <th></th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr>
-                                      <td>/index.html</td>
-                                      <td>1265</td>
-                                      <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                  </tr>
-                                  <tr>
-                                      <td>/about.html</td>
-                                      <td>261</td>
-                                      <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                  </tr>
-                                  <tr>
-                                      <td>/about.html</td>
-                                      <td>261</td>
+                                  <tr ng-repeat="x in myData">
+                                      <td>{{x.Ciudad}}</td>
+                                      <td>{{x.Pais}}</td>
                                       <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
                                   </tr>
                               </tbody>
@@ -169,31 +161,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
+                                <tr ng-repeat="y in myData2">
+                                    <td>{{y.Carrera}}</td>
+                                    <td>{{y.Universidad}}</td>
+                                    <td>{{y.Idioma}}</td>
+                                    <td>{{y.Img}}</td>
+                                    <td>{{y.Id}}</td>
+                                    <td>{{y.Genero}}</td>
                                     <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
                                 </tr>
                             </tbody>
@@ -357,6 +331,8 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
+    
+    <script src="js/admin_tables.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>

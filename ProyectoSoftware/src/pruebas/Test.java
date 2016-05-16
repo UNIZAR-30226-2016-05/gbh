@@ -12,8 +12,7 @@ import objetos.Usuario;
 public class Test {
 	
 	public static void main (String[] args){
-		test2(1);
-		test2(3);
+		test1(1);
 	}
 	
 	private static void test1(int d){
@@ -27,15 +26,6 @@ public class Test {
 		
 		for (Comentario i: c){
 			System.out.println(i.toJSON());
-		}
-	}
-	
-	private static void test2(int d){
-		try {
-			UsuarioDAO.insertValoracion("uno@gmail.com", 2, d);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="img/logo.png">
+
+<title>Search - Erasmus</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../bootstrap-3.3.6/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Semantic UI -->
+<link rel="stylesheet" type="text/css"
+	href="../Semantic-UI-CSS-master/dist/semantic.min.css">
+<script src="../Semantic-UI-CSS-masters/dist/semantic.min.js"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+<!-- Custom styles for this template -->
+<link href="css/dashboard.css" rel="stylesheet">
+<link href="css/carousel.css" rel="stylesheet">
+
+<style type="text/css">
+#img_circle {
+	width: 12.5em;
+	/* 200/16 */
+	height: 12.5em;
+	/* 200/16 */
+}
+
+#paginas {
+	text-align: right;
+	margin-right: 5%;
+}
+
+#box {
+	margin-left: 1.25em;
+	/* 20/16 */
+}
+
+#refresh {
+	color: #428bca;
+	float: right;
+}
+
+#paises {
+	color: #428bca;
+}
+
+#idioma {
+	margin-left: 7%;
+}
+
+#pais {
+	margin-left: 7%;
+}
+
+#rate {
+	margin-left: 7%;
+}
+
+a:link {
+	color: #5a5a5a;
+}
+
+.ordenacion {
+	display: inline-block;
+	float: right;
+}
+
+#linea {
+	display: inline-block;
+	text-align: left;
+}
+
+#pags {
+	margin: auto 5px;
+}
+
+#paginacion {
+	text-align: right;
+}
+</style>
+
+</head>
+<script src="../angular-1.5.0/angular.min.js"></script>
+
+<body ng-app="sampleapp" ng-controller="samplecontoller">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Erasmus</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="addDestiny.html">Nuevo Destino</a></li>
+					<li ng-show="(adminVal) > 0">
+						<a href="admin.html">Administrador</a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-show="(userMail) != null && (userMail) != ''">
+						<a href="/ProyectoSoftware/CerrarSesion">Cerrar Sesión</a>
+					</li>
+					<li class="dropdown" ng-show="(userMail) == null || (userMail) == ''">
+						<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Sesión<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="/ProyectoSoftware/Erasmus/signin.html">Iniciar sesión</a></li>
+							<li><a href="/ProyectoSoftware/Erasmus/signup.html">Registrar</a></li>
+						</ul></li>
+				</ul>
+				<form class="navbar-form navbar-right" role="search"
+					action="search.html" method="GET">
+					<div class="ui search">
+						<div class="ui icon input">
+							<input class="prompt" type="text" placeholder="Carrera..."
+								name="navCarrera"> <i class="search icon"></i>
+						</div>
+						<div class="results"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<div ng-init="showData()">
+				<div class="row">
+					<div class="col-sm-3 col-md-2 sidebar">
+						<form>
+							<ul class="nav nav-sidebar">
+								<li class="active"><a href="#">Filtrar
+									<span class="sr-only">(current)</span>
+								</li>
+								<li>
+									<a href="#">Valoración <span class="sr-only"></span> &nbsp &nbsp
+										<div class="pull-right">
+											<span class="glyphicon glyphicon-remove-sign" ng-click="setStars(0)"></span>
+										</div>
+									</a>
+									<div class="p_rating">
+										<span class="starRating" id="rate">
+											<input id="rating5" type="radio" name="rating" value="5" ng-click="setStars(5)">
+											<label for="rating5">5</label>
+											<input id="rating4" type="radio" name="rating" value="4" ng-click="setStars(4)">
+											<label for="rating4">4</label>
+											<input id="rating3" type="radio" name="rating" value="3" ng-click="setStars(3)">
+											<label for="rating3">3</label>
+											<input id="rating2" type="radio" name="rating" value="2" ng-click="setStars(2)">
+											<label for="rating2">2</label>
+											<input id="rating1" type="radio" name="rating" value="1" ng-click="setStars(1)">
+											<label for="rating1">1</label>
+										</span>
+									</div></li>
+								<li><a href="#" data-toggle="collapse"
+									data-target="#idioma">Idioma <span class="caret"></span>
+								</a>
+									<div id="idioma" class="collapse">
+										<div ng-repeat="cat in getCategories()">
+											<input type="checkbox" ng-model="filter[cat]" />
+												{{cat}}
+										</div>
+									</div></li>
+								<li><a href="#" data-toggle="collapse" data-target="#pais">País
+										<span class="caret"></span>
+								</a>
+									<div id="pais" class="collapse">
+										<div ng-repeat="cat in getPais()">
+											<input type="checkbox" ng-model="filter[cat]" />
+												{{cat}}
+										</div>
+									</div></li>
+							</ul>
+						</form>
+
+					</div>
+
+
+
+					<h1 class="page-header" id="linea">Búsqueda</h1>
+					<i class="fa fa-eraser" aria-hidden="true"></i>
+					<div class="page-header ordenacion">
+						Ordenar por: &nbsp
+						<button class="ui basic button mini" ng-click="order('Pais')">País</button>
+						&nbsp <span class="sortorder" ng-show="predicate === 'Pais'"
+							ng-class="{reverse:reverse}"></span>
+
+						<button class="ui basic button mini" ng-click="order('Ciudad')">Ciudad</button>
+						&nbsp <span class="sortorder" ng-show="predicate === 'Ciudad'"
+							ng-class="{reverse:reverse}"></span>
+
+						<button class="ui basic button mini" ng-click="order('Idioma')">Idioma</button>
+						&nbsp <span class="sortorder" ng-show="predicate === 'Idioma'"
+							ng-class="{reverse:reverse}"></span>
+					</div>
+
+					<div class="row placeholders">
+						<div
+							ng-repeat="w in filtered=(datalists | filter:filterByCategory | filter:filterByStars) | orderBy:predicate | pagination: curPage * pageSize | limitTo: pageSize">
+							<div class="col-xs-6 col-sm-3 placeholder">
+								<a
+									href="/ProyectoSoftware/Erasmus/destino.html?idDestino={{w.Id}}">
+									<!-- idDestino debe indicar el id de la carrera --> <img
+									src="{{ w.Img }}" id="img_circle" class="img-responsive"
+									alt="Generic placeholder thumbnail">
+									<h4>{{ w.Universidad }}</h4>
+								</a> <span class="text-muted">{{ w.Ciudad }}, {{
+									w.Pais }}</span></br> <span class="text-muted">{{
+									w.Carrera }}</span>
+							</div>
+						</div>
+					</div>
+
+					<div ng-show="datalists.length" id="paginacion">
+						<ul class="pagination-controle pagination">
+							<li>
+								<button type="button" class="btn btn-primary"
+									ng-disabled="curPage == 0" ng-click="curPage=curPage-1">
+									&lt; PREV</button>
+							</li>
+							<li><span id="pags">Page {{curPage + 1}} of {{
+									numberOfPages() }}</span></li>
+							<li>
+								<button type="button" class="btn btn-primary"
+									ng-disabled="curPage >= datalists.length/pageSize - 1"
+									ng-click="curPage = curPage+1">NEXT &gt;</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Fin resultado busqueda -->
+				<script src="js/pag.js"></script>
+				<h2 class="sub-header">Géneros</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Género</th>
+								<th>Descripción</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Arquitectura</td>
+								<td>Arte y la técnica de proyectar, diseñar, construir y
+									modificar el Hábitat humano</td>
+							</tr>
+							<tr>
+								<td>Biología</td>
+								<td>Estudios sobre seres vivos, su origen, evolución y
+									propiedades</td>
+							</tr>
+							<tr>
+								<td>Ciencias sociales</td>
+								<td>Disciplinas que analizan y tratan distintos aspectos de
+									los grupos sociales</td>
+							</tr>
+							<tr>
+								<td>Ciencias de la salud</td>
+								<td>Disciplinas dedicadas al estudio del bienestar físico,
+									mental y social de los individuos</td>
+							</tr>
+							<tr>
+								<td>Derecho</td>
+								<td>Formación jurídica sobre las legislación y los métodos
+									de su aplicación</td>
+							</tr>
+							<tr>
+								<td>Economía</td>
+								<td>Estudios sobre los recursos, creación de riqueza y
+									producción y comercio de bienes o servicios</td>
+							</tr>
+							<tr>
+								<td>Filología</td>
+								<td>Ciencia que estudia la evolución de una lengua, su
+									desarrollo histórico y cultural</td>
+							</tr>
+							<tr>
+								<td>Física</td>
+								<td>Ciencia que estudia las propiedades de la materia y de
+									la energía</td>
+							</tr>
+							<tr>
+								<td>Geografía</td>
+								<td>Ciencia que describe la superficie de la Tierra en su
+									aspecto físico o como lugar habitado por la humanidad</td>
+							</tr>
+							<tr>
+								<td>Historia</td>
+								<td>Estudios sobre hechos pasados, que constituyen el
+									desarrollo de la humanidad</td>
+							</tr>
+							<tr>
+								<td>Ingeniería</td>
+								<td>Técnica de aplicar los conocimientos científicos a la
+									invención, diseño, perfeccionamiento y manejo de nuevos
+									procedimientos</td>
+							</tr>
+							<tr>
+								<td>Matemáticas</td>
+								<td>Ciencia formal que, estudia las propiedades y
+									relaciones entre entidades abstractas como números, geometría o
+									símbolos</td>
+							</tr>
+							<tr>
+								<td>Química</td>
+								<td>Ciencia que estudia la composición, estructura y
+									propiedades de la materia</td>
+							</tr>
+							<tr>
+								<td>Veterinaria</td>
+								<td>Rama de la Medicina que se ocupa de la prevención,
+									diagnóstico y tratamiento de enfermedades, trastornos y
+									lesiones en los animales</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- Footer -->
+				<div>
+					<hr class="featurette-divider">
+					<footer>
+						<p class="pull-right">
+							<a href="#">Back to top</a>
+						</p>
+						<p>
+							&copy; 2016 GBH Development. &middot; <a href="about.html">About</a>
+							&middot; <a href="contact.html">Contact</a>
+						</p>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="../bootstrap-3.3.6/assets/js/vendor/jquery.min.js"><\/script>')
+	</script>
+	<script src="../bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
+	<!-- Rating button -->
+	<script src="js/star-rating.js" type="text/javascript"></script>
+
+	<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+	<script type="text/javascript">
+	    window.cookieconsent_options = {"message":"Este sitio web utiliza cookies para asegurar la mejor experiencia en nuestra web",
+	    			"dismiss":"Entendido!","learnMore":"More info","link":null,"theme":"dark-bottom"};
+	</script>
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+	<!-- End Cookie Consent plugin -->
+
+</body>
+
+</html>

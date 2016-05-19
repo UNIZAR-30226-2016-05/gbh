@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,26 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gateway.AsignaturaDAO;
-import gateway.ComentarioDAO;
 import gateway.DestinoDAO;
 import gateway.UsuarioDAO;
-import objetos.Asignaturas;
-import objetos.Busqueda;
-import objetos.Comentario;
-import objetos.Destino;
 import objetos.Usuario;
 
 /**
  * Servlet implementation class BuscaDestino
  */
-@WebServlet("/AdminTables")
-public class AdminTables extends HttpServlet {
+@WebServlet("/Admin")
+public class Admin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminTables() {
+    public Admin() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -61,10 +55,8 @@ public class AdminTables extends HttpServlet {
 	 */
 	private void buscaPrivado(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		ArrayList<Destino> uno = null;
-		ArrayList<Destino> dos = null;
+		int uno = 0, dos = 0, cuatro = 0;
 		Usuario tres = null;
-		ArrayList<Asignaturas> cuatro = null;
 		
 		String mail = "";
 		Cookie[] cookies = request.getCookies();
@@ -73,33 +65,28 @@ public class AdminTables extends HttpServlet {
 		}
 		
 		try {
-			uno = DestinoDAO.selectDestinoSinValidar();
-			dos = DestinoDAO.selectCarreraSinValidar();
+			uno = DestinoDAO.selectNumDestinoSinValidar();
+			dos = DestinoDAO.selectNumCarreraSinValidar();
 			tres = UsuarioDAO.selectUsuario(mail);
-			cuatro = AsignaturaDAO.selectAsignaturasSinValidar();
-			//tres = ComentarioDAO
+			cuatro = AsignaturaDAO.selectNumAsignaturaSinValidar();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		String result1 = Destino.toJSON(uno); 
-		result1 =result1.substring(0, result1.length()-1);
-		String result2 = Destino.toJSON1(dos);
-		result2 =result2.substring(1, result2.length()-1);
-		String result3 = Usuario.toJSON(tres);
-		result3 =result3.substring(1, result3.length()-1);
-		String result4 = Asignaturas.toJSON(cuatro);
-		result4 =result4.substring(1, result4.length());
 		
+		String result3 = Usuario.toJSON(tres);
+		result3 =result3.substring(0, result3.length()-1);
+		String val1 = "\"numDestinos\": " + uno;
+		String val2 = "\"numAsignaturas\": " + cuatro;
+		String val = "\"numCarreras\": " + dos + "}";
 			
 		// Debug
-		System.out.println(result1);
-		System.out.println(result2);
 		System.out.println(result3);
-		System.out.println(result4);
 		
-		String respuesta = result1 + "," + result2 + "," + result3 + "," + result4;
+		String respuesta = result3 + "," + val1 + "," + val2 + "," + val;
+		
+		System.out.println(respuesta);
 		
 		response.setContentType("application/json");
 		// Get the printwriter object from response to write the required json object to the output stream      

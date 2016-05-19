@@ -13,6 +13,7 @@ public class Destino {
 	protected String genero;
 	protected String img;
 	private int id;
+	private int idCarrera;
 	private int val;
 	
 	public Destino (int id, String carrera, String universidad, String ciudad, String pais, String idioma, String genero, String img){
@@ -86,12 +87,32 @@ public class Destino {
 	/**
 	 * Devuelve un String en formato JSON con el contenido del destino
 	 */
+	public String toJSON1(){
+		
+		JSONObject obj = new JSONObject();
+		obj.put("Id", id);
+		obj.put("IdCarrera", idCarrera);
+		obj.put("Carrera", carrera);
+		obj.put("Universidad", universidad);
+		obj.put("Ciudad", ciudad);
+		obj.put("Pais", pais);
+		obj.put("Idioma", idioma);
+		obj.put("Genero", genero);
+		obj.put("Img", img);
+		obj.put("Valoracion", val);
+		
+		return obj.toString();
+	}
+	
+	/**
+	 * Devuelve un String en formato JSON con el contenido del destino
+	 */
 	public static String toJSON1(ArrayList<Destino> vector){
 		
 		String rs = "{\"carrera\": [\n";
 		for (Destino d: vector){
 			
-			rs += d.toJSON() + ",\n";
+			rs += d.toJSON1() + ",\n";
 		}
 		
 		// Consulta vacia?
@@ -101,6 +122,10 @@ public class Destino {
 		}
 		
 		return rs + "\n]}";
+	}
+
+	public void setIdCarrera(int idCarrera) {
+		this.idCarrera = idCarrera;
 	}
 
 }

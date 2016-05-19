@@ -306,7 +306,7 @@ public class DestinoDAO {
 			
 			String query = "";
 			
-			query = "select Pais, Ciudad from Destinos where Validado = 0";
+			query = "select idDestino, Pais, Ciudad from Destinos where Validado = 0";
 			
 			
 			// execute query
@@ -320,6 +320,7 @@ public class DestinoDAO {
             String genero = "";
             String img = "";
 			while (rs.next()) {
+				id = rs.getInt("idDestino");
 				ciudad = rs.getString("Ciudad");
 				pais = rs.getString("Pais");
 	            Destino aux = new Destino(id,carrera, universidad, ciudad, pais, idioma, genero, img);
@@ -355,13 +356,14 @@ public class DestinoDAO {
 			
 			String query = "";
 			
-			query = "select A.idCarrera, A.Carrera, A.Universidad, D.Ciudad, D.Pais, A.Idioma, A.Rama, "
+			query = "select A.Destino, A.idCarrera, A.Carrera, A.Universidad, D.Ciudad, D.Pais, A.Idioma, A.Rama, "
 					+ "A.Imagen from Carrera A, Destinos D where A.Validado = 0 and idDestino=A.Destino";
 			
 			
 			// execute query
 			ResultSet rs = stmt.executeQuery(query);
 			int id=0;
+			int idCarrera=0;
 			String carrera = "";
             String universidad = "";
             String ciudad = "";
@@ -370,7 +372,8 @@ public class DestinoDAO {
             String genero = "";
             String img = "";
 			while (rs.next()) {
-				id = rs.getInt("idCarrera");
+				id = rs.getInt("Destino");
+				idCarrera = rs.getInt("idCarrera");
 				carrera = rs.getString("Carrera");
 				universidad = rs.getString("Universidad");
 				ciudad = rs.getString("Ciudad");
@@ -379,6 +382,7 @@ public class DestinoDAO {
 				genero = rs.getString("Rama");
 				img= rs.getString("Imagen");
 	            Destino aux = new Destino(id,carrera, universidad, ciudad, pais, idioma, genero, img);
+	            aux.setIdCarrera(idCarrera);
 	            lista.add(aux);
 	            System.out.println(aux.toString());
 	        }
@@ -397,6 +401,92 @@ public class DestinoDAO {
 
 		}
 		return lista;
+	}
+	
+	/**
+	 * devuelve el numero de carreras sin validar
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int selectNumCarreraSinValidar() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		int d = 0;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query = "";
+			
+			query = "select count(*) as num from Carrera where Validado = 0 group by Validado";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				// Datos de la consulta
+				d = rs.getInt("num");
+	        }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return d;
+	}
+	
+	/**
+	 * devuelve el numero de carreras sin validar
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int selectNumDestinoSinValidar() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		int d = 0;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query = "";
+			
+			query = "select count(*) as num from Destinos where Validado = 0 group by Validado";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				// Datos de la consulta
+				d = rs.getInt("num");
+	        }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return d;
 	}
 	
 	/**

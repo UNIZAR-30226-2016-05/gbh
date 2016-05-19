@@ -28,6 +28,7 @@ public class Asignaturas {
 		obj.put("Id", idAsignatura);
 		obj.put("Nombre", nombre);
 		obj.put("Creditos", creditos);
+		obj.put("Carrera", carrera);
 		obj.put("Cuatrimestre", cuatrimestre);
 		
 		return obj.toString();

@@ -51,12 +51,12 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.html">Info Erasmus</a>
+              <a class="navbar-brand" href="home.html">Info Erasmus</a>
           </div>
           <!-- Top Menu Items -->
           <ul class="nav navbar-right top-nav">
               <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-repeat="x in myData3"><i class="fa fa-user"></i> {{x.Nombre}} <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                       <li>
                           <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
@@ -68,7 +68,7 @@
           <div class="collapse navbar-collapse navbar-ex1-collapse">
               <ul class="nav navbar-nav side-nav">
                   <li>
-                      <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
+                      <a href="admin.html"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
                   </li>
                   <li  class="active">
                       <a href="tables.html"><i class="fa fa-fw fa-table"></i> Administración</a>
@@ -90,7 +90,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Escritorio</a>
+                                <i class="fa fa-dashboard"></i>  <a href="admin.html">Escritorio</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-table"></i> Administración
@@ -117,6 +117,7 @@
                           <table class="table table-bordered table-hover table-striped">
                               <thead>
                                   <tr>
+                                  	  <th>Id</th>
                                       <th>Ciudad</th>
                                       <th>País</th>
                                       <th></th>
@@ -124,6 +125,7 @@
                               </thead>
                               <tbody>
                                   <tr ng-repeat="x in myData">
+                                  	  <td>{{x.Id}}</td>
                                       <td>{{x.Ciudad}}</td>
                                       <td>{{x.Pais}}</td>
                                       <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
@@ -151,6 +153,7 @@
                           <table class="table table-bordered table-hover table-striped">
                             <thead>
                                 <tr>
+                                	<th>Id</th>
                                     <th>Carrera</th>
                                     <th>Universidad</th>
                                     <th>Idioma</th>
@@ -162,6 +165,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="y in myData2">
+                                	<td>{{y.IdCarrera}}</td>
                                     <td>{{y.Carrera}}</td>
                                     <td>{{y.Universidad}}</td>
                                     <td>{{y.Idioma}}</td>
@@ -201,27 +205,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
+                                <tr ng-repeat="x in myData4">
+                                    <td>{{x.Nombre}}</td>
+                                    <td>{{x.Carrera}}</td>
+                                    <td>{{x.Creditos}}</td>
+                                    <td>{{x.Cuatrimestre}}</td>
                                     <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
-                                </tr>
+                                </tr> 
                             </tbody>
                           </table>
                       </div>

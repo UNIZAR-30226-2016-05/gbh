@@ -104,4 +104,97 @@ public class AsignaturaDAO {
 		}
 		return lista;
 	}
+	
+	/**
+	 * Devuelve todas las asignaturas sin validar
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ArrayList<Asignaturas> selectAsignaturasSinValidar() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		ArrayList<Asignaturas> lista = new ArrayList<Asignaturas>();
+
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			
+			String query = "select idAsignatura, Nombre, Creditos, Cuatrimestre, Carrera from "
+					+ "Asignaturas where Validado=0";
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			int id=0;
+            String nombre = "";
+            int cuatrimestre=0, creditos=0, carrera=0;
+			while (rs.next()) {
+				id = rs.getInt("idAsignatura");
+				nombre= rs.getString("Nombre");
+				carrera = rs.getInt("Carrera");
+				creditos = rs.getInt("Creditos");
+				cuatrimestre = rs.getInt("Cuatrimestre");
+	            Asignaturas aux = new Asignaturas(id, nombre, carrera+"", creditos, cuatrimestre);
+	            lista.add(aux);
+	            System.out.println(aux.toString());
+	        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return lista;
+	}
+	/**
+	 * devuelve el numero de asignaturas sin validar
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int selectNumAsignaturaSinValidar() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		int d = 0;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query = "";
+			
+			query = "select count(*) as num from Asignaturas where Validado = 0 group by Validado";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				// Datos de la consulta
+				d = rs.getInt("num");
+	        }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return d;
+	}
 }

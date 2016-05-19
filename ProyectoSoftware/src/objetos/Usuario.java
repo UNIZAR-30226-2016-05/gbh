@@ -44,10 +44,10 @@ public class Usuario {
 	 * Devuelve un String en formato JSON con el contenido de
 	 * los usuarios
 	 */
-	public static String toJSON(ArrayList<Asignaturas> vector){
+	public static String toJSON(ArrayList<Usuario> vector){
 		
 		String rs = "{\"usuarios\": [\n";
-		for (Asignaturas d: vector){
+		for (Usuario d: vector){
 			
 			rs += d.toJSON() + ",\n";
 		}
@@ -57,6 +57,15 @@ public class Usuario {
 			int end = rs.lastIndexOf(',');
 			rs = rs.substring(0, end);	// Elimina la última coma puesta
 		}
+		
+		return rs + "\n]}";
+	}
+	
+public static String toJSON(Usuario user){
+		
+		String rs = "{\"admin\": [\n";
+			
+		rs += user.toJSON();
 		
 		return rs + "\n]}";
 	}

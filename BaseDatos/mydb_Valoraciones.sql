@@ -23,15 +23,14 @@ DROP TABLE IF EXISTS `Valoraciones`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Valoraciones` (
-  `idValoracion` int(11) NOT NULL AUTO_INCREMENT,
   `Usuario` varchar(50) NOT NULL,
   `Destino` int(11) NOT NULL,
   `Valoracion` int(11) NOT NULL,
   `Time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idValoracion`),
+  PRIMARY KEY (`Usuario`,`Destino`),
   KEY `Usuario_idx` (`Usuario`),
-  KEY `Destino_idx` (`Destino`),
-  CONSTRAINT `Destino_V` FOREIGN KEY (`Destino`) REFERENCES `Destinos` (`idDestino`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `Destino_V_idx` (`Destino`),
+  CONSTRAINT `Destino_V` FOREIGN KEY (`Destino`) REFERENCES `Carrera` (`idCarrera`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Usuario_V` FOREIGN KEY (`Usuario`) REFERENCES `Usuarios` (`Correo`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,6 +41,7 @@ CREATE TABLE `Valoraciones` (
 
 LOCK TABLES `Valoraciones` WRITE;
 /*!40000 ALTER TABLE `Valoraciones` DISABLE KEYS */;
+INSERT INTO `Valoraciones` VALUES ('manuel@gmail.com',17,4,'2016-05-21 15:33:08');
 /*!40000 ALTER TABLE `Valoraciones` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-11 13:17:35
+-- Dump completed on 2016-05-21 15:35:41

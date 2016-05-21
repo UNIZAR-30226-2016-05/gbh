@@ -29,11 +29,11 @@ CREATE TABLE `Comentarios` (
   `Comentario` text NOT NULL,
   `Time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idComentario`),
-  KEY `Destino_idx` (`Destino`),
   KEY `Usuario_idx` (`Usuario`),
-  CONSTRAINT `Destino_C` FOREIGN KEY (`Destino`) REFERENCES `Destinos` (`idDestino`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `Destino_C_idx` (`Destino`),
+  CONSTRAINT `Destino_C` FOREIGN KEY (`Destino`) REFERENCES `Carrera` (`idCarrera`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Usuario_C` FOREIGN KEY (`Usuario`) REFERENCES `Usuarios` (`Correo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `Comentarios` (
 
 LOCK TABLES `Comentarios` WRITE;
 /*!40000 ALTER TABLE `Comentarios` DISABLE KEYS */;
-INSERT INTO `Comentarios` VALUES (2,1,'manuel@gmail.com','hola','2016-05-11 13:10:23');
+INSERT INTO `Comentarios` VALUES (1,17,'manuel@gmail.com','prueba','2016-05-21 15:33:00');
 /*!40000 ALTER TABLE `Comentarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-11 13:17:36
+-- Dump completed on 2016-05-21 15:35:41

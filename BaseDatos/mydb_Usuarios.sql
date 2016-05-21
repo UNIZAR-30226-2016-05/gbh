@@ -19,10 +19,10 @@
 -- Table structure for table `Usuarios`
 --
 
-DROP TABLE IF EXISTS mydb.`Usuarios`;
+DROP TABLE IF EXISTS `Usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE mydb.`Usuarios` (
+CREATE TABLE `Usuarios` (
   `Correo` varchar(50) NOT NULL,
   `Nombre` varchar(45) NOT NULL,
   `Contraseña` varchar(45) NOT NULL,
@@ -36,10 +36,10 @@ CREATE TABLE mydb.`Usuarios` (
 -- Dumping data for table `Usuarios`
 --
 
-LOCK TABLES mydb.`Usuarios` WRITE;
-/*!40000 ALTER TABLE mydb.`Usuarios` DISABLE KEYS */;
-INSERT INTO mydb.`Usuarios` VALUES ('manuel@gmail.com','Manuel','1234',0,'2016-05-11 13:15:36');
-/*!40000 ALTER TABLE mydb.`Usuarios` ENABLE KEYS */;
+LOCK TABLES `Usuarios` WRITE;
+/*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
+INSERT INTO `Usuarios` VALUES ('manuel@gmail.com','Manuel','1234',1,'2016-05-11 13:15:36'),('uno@gmail.com','Uno','1234',0,'2016-05-12 15:46:00');
+/*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-11 13:17:36
+-- Dump completed on 2016-05-21 15:35:41

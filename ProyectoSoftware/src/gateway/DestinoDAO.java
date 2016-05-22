@@ -101,9 +101,9 @@ public class DestinoDAO {
 			
 			// if (carac == null);
 			
-			query = "select idCarrera, Carrera, Universidad, Ciudad, Pais, Idioma, Rama, Imagen from Carrera, Destinos where "
+			query = "select A.idCarrera, A.Carrera, A.Universidad, D.Ciudad, D.Pais, A.Idioma, A.Rama, A.Imagen from Carrera A, Destinos D where "
 					+ "(Carrera LIKE '%"+ busqueda +"%' OR Rama LIKE '%"+ busqueda + "%') "
-					+ "and idDestino=Destino ";
+					+ "and idDestino=Destino and A.Validado = 1 and D.Validado = 1";
 			
 			if (orderby != null) query = query + " order by " + orderby;
 			
@@ -162,8 +162,8 @@ public class DestinoDAO {
 			
 			// if (carac == null);
 			
-			query = "select idCarrera, Carrera, Universidad, Ciudad, Pais, Idioma, Rama, "
-					+ "Imagen from Carrera, Destinos where idCarrera = " + busqueda + " and idDestino=Destino";
+			query = "select A.idCarrera, A.Carrera, A.Universidad, D.Ciudad, D.Pais, A.Idioma, A.Rama, "
+					+ "A.Imagen from Carrera A, Destinos D where idCarrera = " + busqueda + " and idDestino=Destino";
 			
 			if (orderby != null) query = query + " order by " + orderby;
 			

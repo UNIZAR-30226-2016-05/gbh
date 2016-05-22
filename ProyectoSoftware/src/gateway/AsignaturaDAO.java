@@ -76,7 +76,7 @@ public class AsignaturaDAO {
 	        }
 			
 			query = "select idAsignatura, Nombre, Creditos, Cuatrimestre from "
-					+ "Asignaturas where Carrera="+carrera;
+					+ "Asignaturas where Validado =1 and Carrera="+carrera;
 			// execute query
 			rs = stmt.executeQuery(query);
 			int id=0;

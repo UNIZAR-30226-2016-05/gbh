@@ -25,10 +25,13 @@ public class ComentarioDAO {
 			conecta = AccesoBase.getDBConnection();
 			
 			stmt = conecta.createStatement();
+
+			System.out.println(com.getDestino());
+			System.out.println(com.getMail());
+			System.out.println(com.getTexto());
 			
-			String query="insert into Comentarios(Destino, Usuario, Comentario) "
-					+ "values (" + com.getDestino() +",'"+ com.getMail()
-					+ "','" + com.getTexto() +"')";
+			String query="insert into Comentarios (Destino, Usuario, Comentario) "
+					+ "values (" + com.getDestino() +",'"+ com.getMail() + "','" + com.getTexto() +"')";
 				stmt.executeUpdate(query);
 				
 		} catch (SQLException e) {

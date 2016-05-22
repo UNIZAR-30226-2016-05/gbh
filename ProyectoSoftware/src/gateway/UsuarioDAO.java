@@ -1,6 +1,7 @@
 package gateway;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import objetos.Asignaturas;
+import objetos.Comentario;
 import objetos.Fecha;
 import objetos.Usuario;
 
@@ -148,5 +150,103 @@ public class UsuarioDAO {
 		return usuario;
 	}
 	
+	/**
+	 * Devuelve el usuario con el mail indicado
+	 */
+	public static ArrayList<Usuario> selectAllUsuarios() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		Usuario usuario = null;
+		ArrayList<Usuario> result = new ArrayList<Usuario>();
 
+
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			
+			String query = "select * from Usuarios";
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String mail = rs.getString("Correo");
+				String nombre = rs.getString("Nombre");
+				String passwd = rs.getString("Contraseña");
+				int admin = rs.getInt("Admin");
+				String date = rs.getString("Time");
+				
+				Date fecha = Fecha.mySQLtoDate(date);
+				
+				usuario = new Usuario(mail, nombre, passwd, admin, fecha);
+				result.add(usuario);
+	        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return result;
+	}
+	
+	public static void delete(String id) throws SQLException{
+		Connection conecta = AccesoBase.getDBConnection();
+
+		
+		String query = "DELETE FROM Usuarios WHERE Correo='"+id+"';";
+		PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+		preparedStatement.execute();
+		conecta.close();
+	}
+	
+	/**
+	 * devuelve el numero de usuarios
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int selectNumUsuarios() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		int d = 0;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query = "";
+			
+			query = "select count(*) as num from Usuarios";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				// Datos de la consulta
+				d = rs.getInt("num");
+	        }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return d;
+	}
 }

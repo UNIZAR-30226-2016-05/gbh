@@ -65,6 +65,9 @@ public class AdminTables extends HttpServlet {
 		ArrayList<Destino> dos = null;
 		Usuario tres = null;
 		ArrayList<Asignaturas> cuatro = null;
+		ArrayList<Usuario> cinco = null;
+		ArrayList<Comentario> seis = null;
+
 		
 		String mail = "";
 		Cookie[] cookies = request.getCookies();
@@ -77,7 +80,8 @@ public class AdminTables extends HttpServlet {
 			dos = DestinoDAO.selectCarreraSinValidar();
 			tres = UsuarioDAO.selectUsuario(mail);
 			cuatro = AsignaturaDAO.selectAsignaturasSinValidar();
-			//tres = ComentarioDAO
+			cinco = UsuarioDAO.selectAllUsuarios();
+			seis = ComentarioDAO.selectAllComentarios();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,7 +94,11 @@ public class AdminTables extends HttpServlet {
 		String result3 = Usuario.toJSON(tres);
 		result3 =result3.substring(1, result3.length()-1);
 		String result4 = Asignaturas.toJSON(cuatro);
-		result4 =result4.substring(1, result4.length());
+		result4 =result4.substring(1, result4.length()-1);
+		String result5 = Usuario.toJSON(cinco);
+		result5 =result5.substring(1, result5.length()-1);
+		String result6 = Comentario.toJSON(seis);
+		result6 =result6.substring(1, result6.length());
 		
 			
 		// Debug
@@ -98,8 +106,11 @@ public class AdminTables extends HttpServlet {
 		System.out.println(result2);
 		System.out.println(result3);
 		System.out.println(result4);
+		System.out.println(result5);
+		System.out.println(result6);
 		
-		String respuesta = result1 + "," + result2 + "," + result3 + "," + result4;
+		String respuesta = result1 + "," + result2 + "," + result3 + "," + result4 + "," + result5 + "," + result6;
+		System.out.println(respuesta);
 		
 		response.setContentType("application/json");
 		// Get the printwriter object from response to write the required json object to the output stream      

@@ -1,14 +1,17 @@
 package gateway;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
 import objetos.Asignaturas;
 
 
 public class AsignaturaDAO {
+	
 	
 	public static void insertAsignatura(String nombre, int carrera, int creditos, int cuatrimestre) throws SQLException {
 		Connection conecta = null;
@@ -34,7 +37,7 @@ public class AsignaturaDAO {
 			
 			if(!existeAsignatura){
 				query="insert into Asignaturas(idAsignatura, Carrera, Nombre, Creditos, Cuatrimestre, Validado)"
-					+ "values ("+i+","+carrera+",'"+nombre+"',"+creditos+","+cuatrimestre+",TRUE)";
+					+ "values ("+i+","+carrera+",'"+nombre+"',"+creditos+","+cuatrimestre+",FALSE)";
 				stmt.executeUpdate(query);
 			}
 		} catch (SQLException e) {
@@ -197,4 +200,23 @@ public class AsignaturaDAO {
 		}
 		return d;
 	}
+	
+	 public static void delete(String id) throws SQLException{
+			Connection conecta = AccesoBase.getDBConnection();
+
+			
+			String query = "DELETE FROM Asignaturas WHERE idAsignatura='"+id+"';";
+			PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+			preparedStatement.execute();
+			conecta.close();
+		}
+		
+		public static void update(String id) throws SQLException{
+			Connection conecta = AccesoBase.getDBConnection();
+
+			String query = "UPDATE Asignaturas set Validado=1 WHERE idAsignatura='"+id+"';";
+			PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+			preparedStatement.execute();
+			conecta.close();
+		}
 }

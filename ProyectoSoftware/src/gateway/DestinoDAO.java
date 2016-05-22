@@ -1,6 +1,7 @@
 package gateway;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,7 +34,7 @@ public class DestinoDAO {
 				while (rs.next()) {
 					idDestino = rs.getInt("i")+1;
 		        }
-				query="insert into Destinos (idDestino, Pais, Ciudad, Validado) values ("+idDestino+",'"+pais+"','"+ciudad+"',TRUE)";
+				query="insert into Destinos (idDestino, Pais, Ciudad, Validado) values ("+idDestino+",'"+pais+"','"+ciudad+"',FALSE)";
 				stmt.executeUpdate(query);
 			}
 			//Comprobar si existe la rama
@@ -55,7 +56,7 @@ public class DestinoDAO {
 				idCarrera = rs.getInt("id")+1;
 	        }
 			query="insert into Carrera (idCarrera, destino, rama, carrera, universidad, idioma, imagen, "
-						+ "validado) values ("+idCarrera+","+idDestino+",'"+genero+"','"+carrera+"','"+universidad+"', '"+idioma+"','"+img+"', TRUE)";
+						+ "validado) values ("+idCarrera+","+idDestino+",'"+genero+"','"+carrera+"','"+universidad+"', '"+idioma+"','"+img+"', FALSE)";
 			System.out.println(query);
 			stmt.executeUpdate(query);
 		} catch (SQLException e) {
@@ -530,5 +531,84 @@ public class DestinoDAO {
 		else {
 			return d.intValue();
 		}
+	}
+	public static void deleteDestino(String id) throws SQLException{
+		Connection conecta = AccesoBase.getDBConnection();
+
+		
+		String query = "DELETE FROM Destinos WHERE idDestino='"+id+"';";
+		PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+		preparedStatement.execute();
+		conecta.close();
+	}
+	
+	public static void updateDestino(String id) throws SQLException{
+		Connection conecta = AccesoBase.getDBConnection();
+
+		String query = "UPDATE Destinos set Validado=1 WHERE idDestino='"+id+"';";
+		PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+		preparedStatement.execute();
+		conecta.close();
+	}
+	public static void deleteCarrera(String id) throws SQLException{
+		Connection conecta = AccesoBase.getDBConnection();
+
+		
+		String query = "DELETE FROM Carrera WHERE idCarrera='"+id+"';";
+		PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+		preparedStatement.execute();
+		conecta.close();
+	}
+	
+	public static void updateCarrera(String id) throws SQLException{
+		Connection conecta = AccesoBase.getDBConnection();
+
+		String query = "UPDATE Carrera set Validado=1 WHERE idCarrera='"+id+"';";
+		PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+		preparedStatement.execute();
+		conecta.close();
+	}
+	
+	/**
+	 * devuelve el numero de valoraciones
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int selectNumValoraciones() throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		int d = 0;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query = "";
+			
+			query = "select count(*) as num from Valoraciones";
+			
+			
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				// Datos de la consulta
+				d = rs.getInt("num");
+	        }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		return d;
 	}
 }

@@ -19,8 +19,5 @@ app.controller('adminControl', function($scope, $http, $location) {
       $scope.numCarreras = response.data.numCarreras; 
       $scope.numDestinos = response.data.numDestinos;
       $scope.numAsignaturas = response.data.numAsignaturas;
-      $scope.numUsuarios = response.data.numUsuarios; 
-      $scope.numComentarios = response.data.numComentarios;
-      $scope.numValoraciones = response.data.numValoraciones;
     });
 });

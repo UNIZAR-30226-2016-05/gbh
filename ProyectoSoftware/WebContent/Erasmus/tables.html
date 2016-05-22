@@ -121,6 +121,7 @@
                                       <th>Ciudad</th>
                                       <th>País</th>
                                       <th></th>
+                                      <th></th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -128,7 +129,8 @@
                                   	  <td>{{x.Id}}</td>
                                       <td>{{x.Ciudad}}</td>
                                       <td>{{x.Pais}}</td>
-                                      <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
+                                      <td class="something"><a type="button" class="btn btn-sm btn-info" href="/ProyectoSoftware/AdminPublic?tipo=0&accion=0&id={{x.Id}}">Publicar</button></td>
+                                      <td class="something"><a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=0&accion=1&id={{x.Id}}">Borrar</button></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -161,6 +163,7 @@
                                     <th>Destino</th>
                                     <th>Rama</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -172,7 +175,8 @@
                                     <td>{{y.Img}}</td>
                                     <td>{{y.Id}}</td>
                                     <td>{{y.Genero}}</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
+                                    <td class="something"><a type="button" class="btn btn-sm btn-info" href="/ProyectoSoftware/AdminPublic?tipo=1&accion=0&id={{y.IdCarrera}}">Publicar</button></td>
+                                      <td class="something"><a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=1&accion=1&id={{y.IdCarrera}}">Borrar</button></td>
                                 </tr>
                             </tbody>
                           </table>
@@ -202,6 +206,7 @@
                                     <th>Créditos</th>
                                     <th>Cuatrimestre</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -210,7 +215,8 @@
                                     <td>{{x.Carrera}}</td>
                                     <td>{{x.Creditos}}</td>
                                     <td>{{x.Cuatrimestre}}</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-info">Publicar</button></td>
+									<td class="something"><a type="button" class="btn btn-sm btn-info" href="/ProyectoSoftware/AdminPublic?tipo=2&accion=0&id={{x.Id}}">Publicar</button></td>
+                                      <td class="something"><a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=2&accion=1&id={{x.Id}}">Borrar</button></td>
                                 </tr> 
                             </tbody>
                           </table>
@@ -242,20 +248,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-danger">Borrar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-danger">Borrar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-danger">Borrar</button></td>
+                                <tr ng-repeat="x in myData5">
+                                    <td>{{x.Nombre}}</td>
+                                    <td>{{x.Mail}}</td>
+                                    <td class="something"><a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=3&accion=1&id={{x.Mail}}">Borrar</button></td>
+                                    
                                 </tr>
                             </tbody>
                           </table>
@@ -287,23 +284,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>/index.html</td>
-                                    <td>1265</td>
-                                    <td>/index.html</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-danger">Borrar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td>/index.html</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-danger">Borrar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>/about.html</td>
-                                    <td>261</td>
-                                    <td>/index.html</td>
-                                    <td class="something"><button type="button" class="btn btn-sm btn-danger">Borrar</button></td>
+                                <tr ng-repeat="x in myData6">
+                                    <td>{{x.Nombre}}</td>
+                                    <td>{{x.Destino}}</td>
+                                    <td>{{x.Texto}}</td>
+                                      <td class="something"><a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=4&accion=1&id={{x.Id}}">Borrar</button></td>
                                 </tr>
                             </tbody>
                           </table>

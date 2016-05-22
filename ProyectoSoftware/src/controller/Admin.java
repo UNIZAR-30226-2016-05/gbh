@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gateway.AsignaturaDAO;
+import gateway.ComentarioDAO;
 import gateway.DestinoDAO;
 import gateway.UsuarioDAO;
 import objetos.Usuario;
@@ -55,7 +56,7 @@ public class Admin extends HttpServlet {
 	 */
 	private void buscaPrivado(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		int uno = 0, dos = 0, cuatro = 0;
+		int uno = 0, dos = 0, cuatro = 0, cinco=0, seis=0, siete=0;
 		Usuario tres = null;
 		
 		String mail = "";
@@ -69,6 +70,9 @@ public class Admin extends HttpServlet {
 			dos = DestinoDAO.selectNumCarreraSinValidar();
 			tres = UsuarioDAO.selectUsuario(mail);
 			cuatro = AsignaturaDAO.selectNumAsignaturaSinValidar();
+			cinco = UsuarioDAO.selectNumUsuarios();
+			seis = ComentarioDAO.selectNumComentarios();
+			siete = DestinoDAO.selectNumValoraciones();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,12 +83,15 @@ public class Admin extends HttpServlet {
 		result3 =result3.substring(0, result3.length()-1);
 		String val1 = "\"numDestinos\": " + uno;
 		String val2 = "\"numAsignaturas\": " + cuatro;
+		String val3 = "\"numUsuarios\": " + cinco;
+		String val4 = "\"numComentarios\": " + seis;		
+		String val5 = "\"numValoraciones\": " + siete;
 		String val = "\"numCarreras\": " + dos + "}";
 			
 		// Debug
 		System.out.println(result3);
 		
-		String respuesta = result3 + "," + val1 + "," + val2 + "," + val;
+		String respuesta = result3 + "," + val1 + "," + val2 + "," + val3 + "," + val4 + "," + val5 +"," +val;
 		
 		System.out.println(respuesta);
 		

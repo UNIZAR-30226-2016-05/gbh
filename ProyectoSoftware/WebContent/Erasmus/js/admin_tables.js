@@ -19,5 +19,7 @@ app.controller('adminTablesControl', function($scope, $http, $location) {
       $scope.myData2 = response.data.carrera;
       $scope.myData3 = response.data.admin;
       $scope.myData4 = response.data.asignatura;
+      $scope.myData5 = response.data.usuarios;
+      $scope.myData6 = response.data.comentarios;
     });
 });

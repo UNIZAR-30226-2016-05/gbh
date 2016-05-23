@@ -35,7 +35,7 @@ myapp.controller('samplecontoller', function($scope, $http) {
 	// Cookies de usuario
   $scope.userMail = getCookie('userMail');
   $scope.adminVal = getCookie('admin');
-	
+
 	$scope.showData = function() {
 
 		$scope.curPage = 0;
@@ -47,7 +47,8 @@ myapp.controller('samplecontoller', function($scope, $http) {
 				})
 
 		$scope.numberOfPages = function() {
-			return Math.ceil($scope.datalists.length / $scope.pageSize);
+      var len = $scope.datalists.length;
+			return Math.ceil(len / $scope.pageSize);
 		};
 
 	}
@@ -62,6 +63,7 @@ myapp.controller('samplecontoller', function($scope, $http) {
 
 
     $scope.filter = {};
+    $scope.stars = 0;
 
     $scope.getCategories = function () {
         return ($scope.datalists || []).map(function (w) {
@@ -80,7 +82,16 @@ myapp.controller('samplecontoller', function($scope, $http) {
     };
 
     $scope.filterByCategory = function (variable) {
-        return $scope.filter[variable.Idioma] || noFilter($scope.filter) || $scope.filter[variable.Pais];
+        return $scope.filter[variable.Idioma] || noFilter($scope.filter) ||
+          $scope.filter[variable.Pais];
+    };
+
+    $scope.filterByStars = function (variable) {
+        return (variable.Valoracion + 1) > $scope.stars;
+    };
+
+    $scope.setStars = function (value) {
+        $scope.stars = value;
     };
 
 

@@ -19,10 +19,10 @@ function stop() {
 }
 
 function checkCookie() {
-    var admin=getCookie("admin");
+    var admin = getCookie("admin");
     if (admin == 0) {
 
-      window.location = "/ProyectoSoftware/Erasmus/signin.html"
+      window.location = "/ProyectoSoftware/Erasmus/home.html"
       alert('Necesita iniciar sesión como administrador para acceder a este contenido.'
         + 'Será redirigido automáticamente.');
 

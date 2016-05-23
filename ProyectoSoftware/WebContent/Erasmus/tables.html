@@ -38,7 +38,7 @@
 
 <script src="../angular-1.5.0/angular.min.js"></script>
 
-<body ng-app="myApp" ng-controller="adminTablesControl">
+<body onload="checkCookie()" ng-app="myApp" ng-controller="adminTablesControl">
 
     <div id="wrapper">
 
@@ -316,7 +316,8 @@
     <script src="js/jquery.js"></script>
     
     <script src="js/admin_tables.js"></script>
-
+	<!-- Script cookies admin -->
+    <script type="text/javascript" src="js/cookies.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 

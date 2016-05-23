@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -68,7 +71,7 @@ public class InicioSesion extends HttpServlet {
 			response.sendRedirect("/ProyectoSoftware/Erasmus/signin.html?error=nulo");
 		} else {
 			// El usuario se encuentra en la base
-			if (pass.compareTo(usr.getPasswd()) != 0){
+			if (getMD5(pass).compareTo(usr.getPasswd()) != 0){
 				// La contraseña no coincide
 				response.sendRedirect("/ProyectoSoftware/Erasmus/signin.html?error=passwd");
 			} else {
@@ -76,14 +79,17 @@ public class InicioSesion extends HttpServlet {
 				Cookie usrMail = new Cookie("userMail", mail);
 				Cookie usrName = new Cookie("userName", usr.getNombre());
 				Cookie usrAdmin = new Cookie("admin", ""+usr.getAdmin());
+				Cookie usrPass = new Cookie("userPass", ""+usr.getPasswd());
 				// Duración de las cookies
-				usrMail.setMaxAge(60*15); //15 minutos
-				usrName.setMaxAge(60*15); //15 minutos
-				usrAdmin.setMaxAge(60*15); //15 minutos
+				usrMail.setMaxAge(-1); //15 minutos
+				usrName.setMaxAge(-1); //15 minutos
+				usrAdmin.setMaxAge(-1); //15 minutos
+				usrPass.setMaxAge(-1); //15 minutos
 				// Incluirlas en la sesión
 				response.addCookie(usrMail);
 				response.addCookie(usrName);
 				response.addCookie(usrAdmin);
+				response.addCookie(usrPass);
 				
 				// Inicio de sesión de administrador
 				if (usr.getAdmin() > 0){
@@ -96,5 +102,33 @@ public class InicioSesion extends HttpServlet {
 		}
 		
 	}
+	
+	/**
+	 * Metodo que dada una cadena de caracteres que representa el password
+	 * de un usuario determinado, le aplica un cifrado para que el password
+	 * no sea visible sin aplicarse un descifrado.
+	 * 
+	 * @param input	cadena de caracteres que representa el password de un usuario
+	 * determinado.
+	 * 
+	 * @return	devuelve una cadena de caracteres que representa el password del
+	 * usuario pero cifrado.
+	 */
+	private static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger number = new BigInteger(1, messageDigest);
+            String hashtext = number.toString(16);
+            // Now we need to zero pad it if you actually want the full 32 chars.
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

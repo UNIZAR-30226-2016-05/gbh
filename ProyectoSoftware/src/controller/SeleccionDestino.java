@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import gateway.AsignaturaDAO;
 import gateway.ComentarioDAO;
 import gateway.DestinoDAO;
+import gateway.UsuarioDAO;
 import objetos.Asignaturas;
 import objetos.Busqueda;
 import objetos.Comentario;
 import objetos.Destino;
+import objetos.Usuario;
 
 /**
  * Servlet implementation class BuscaDestino
@@ -62,6 +65,16 @@ public class SeleccionDestino extends HttpServlet {
 		int destino = Integer.parseInt(carrera);
 		System.out.println(">" + carrera);
 		
+		String mail = "";
+		String admin = "";
+		String pass = "";
+		Cookie[] cookies = request.getCookies();
+		for (Cookie c: cookies){
+			if (c.getName().compareTo("userPass") == 0) pass = c.getValue();
+			else if (c.getName().compareTo("userMail") == 0) mail = c.getValue();
+			else if (c.getName().compareTo("admin") == 0) admin = c.getValue();
+		}
+		
 		ArrayList<Destino> uno = null;
 		ArrayList<Asignaturas> dos = null;
 		ArrayList<Comentario> tres = null;
@@ -86,6 +99,37 @@ public class SeleccionDestino extends HttpServlet {
 		
 		String respuesta = result + "," + result2 + ", " + val
 				+ ", " + result3;
+		
+		if (!comprobadoAdmin(mail, pass, admin)) {
+			Usuario usr = comprobadoUser(mail, pass);
+			if (usr != null) {
+				// Eliminar cookies
+				Cookie[] cookie = request.getCookies();
+				for (Cookie c: cookie){
+					// La cookie se eliminar al recibir la respuesta
+					c.setMaxAge(0);
+					response.addCookie(c);
+				}
+				// Usuario logeado correctamente, crear cookies
+				Cookie usrMail = new Cookie("userMail", mail);
+				Cookie usrName = new Cookie("userName", usr.getNombre());
+				Cookie usrAdmin = new Cookie("admin", ""+usr.getAdmin());
+				Cookie usrPass = new Cookie("userPass", ""+usr.getPasswd());
+				// Duración de las cookies
+				usrMail.setMaxAge(-1); //15 minutos
+				usrName.setMaxAge(-1); //15 minutos
+				usrAdmin.setMaxAge(-1); //15 minutos
+				usrPass.setMaxAge(-1); //15 minutos
+				// Incluirlas en la sesión
+				response.addCookie(usrMail);
+				response.addCookie(usrName);
+				response.addCookie(usrAdmin);
+				response.addCookie(usrPass);
+			}
+			respuesta = result + "," + result2 + ", " + val
+					+ "}";
+		}
+		
 			
 		// Debug
 		System.out.println(respuesta);
@@ -97,5 +141,53 @@ public class SeleccionDestino extends HttpServlet {
 		out.print(respuesta);
 		out.flush();
 	}
-
+	
+	/**
+	 * Metodo que comprueba que el usuario cuyo email es "mail" tiene el campo admin
+	 * igual a "admin"
+	 * @param mail
+	 * @param pass
+	 * @param admin
+	 * @return
+	 */
+	private boolean comprobadoAdmin (String mail, String pass, String admin) {
+		
+		Usuario user = null;
+		
+		try {
+			user = UsuarioDAO.selectUsuario(mail);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (pass.compareTo(user.getPasswd()) == 0) {
+			return admin.compareTo(user.getAdmin()+"") == 0;
+		}else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Metodo que comprueba que devuelve el usuario cuyo email es "mail" y su pass
+	 * "pass"
+	 * @param mail
+	 * @param pass
+	 * @return
+	 */
+	private Usuario comprobadoUser (String mail, String pass) {
+		
+		Usuario user = null;
+		
+		try {
+			user = UsuarioDAO.selectUsuario(mail);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (pass.compareTo(user.getPasswd()) == 0) {
+			return user;
+		}else {
+			return null;
+		}
+	}
 }

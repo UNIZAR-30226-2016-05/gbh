@@ -236,11 +236,15 @@
 									<img class="media-object" src="http://placehold.it/64x64" alt="">
 							</a>-->
 							<div class="media-body">
+							
 									<h4 class="media-heading">{{ x.Nombre }}
 											<div ng-show="(x.Admin) > 0" class="admin">
 												<small>Administrador | </small>
 											</div>
 											<small>{{ x.Time }}</small>
+											<div  ng-show="(adminVal) > 0">
+											<a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=4&accion=1&id={{x.Id}}">Borrar</a>
+											</div>
 									</h4>
 									{{ x.Texto }}
 							</div>

@@ -47,16 +47,16 @@ public class UsuarioDAO {
 
 			if (stmt != null) {
 				stmt.close();
-				return !existe;
+				return existe;
 			}
 
 			if (conecta != null) {
 				conecta.close();
-				return !existe;
+				return existe;
 			}
 
 		}
-		return false;
+		return existe;
 	}
 	
 	/**

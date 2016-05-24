@@ -69,10 +69,12 @@ public class SeleccionDestino extends HttpServlet {
 		String admin = "";
 		String pass = "";
 		Cookie[] cookies = request.getCookies();
-		for (Cookie c: cookies){
-			if (c.getName().compareTo("userPass") == 0) pass = c.getValue();
-			else if (c.getName().compareTo("userMail") == 0) mail = c.getValue();
-			else if (c.getName().compareTo("admin") == 0) admin = c.getValue();
+		if (cookies != null) {
+			for (Cookie c: cookies){
+				if (c.getName().compareTo("userPass") == 0) pass = c.getValue();
+				else if (c.getName().compareTo("userMail") == 0) mail = c.getValue();
+				else if (c.getName().compareTo("admin") == 0) admin = c.getValue();
+			}
 		}
 		
 		ArrayList<Destino> uno = null;
@@ -100,36 +102,38 @@ public class SeleccionDestino extends HttpServlet {
 		String respuesta = result + "," + result2 + ", " + val
 				+ ", " + result3;
 		
-		if (!comprobadoAdmin(mail, pass, admin)) {
-			Usuario usr = comprobadoUser(mail, pass);
-			if (usr != null) {
-				// Eliminar cookies
-				Cookie[] cookie = request.getCookies();
-				for (Cookie c: cookie){
-					// La cookie se eliminar al recibir la respuesta
-					c.setMaxAge(0);
-					response.addCookie(c);
+		if (mail.compareTo("")!=0
+				&& pass.compareTo("")!=0 && admin.compareTo("")!=0) {
+			if (!comprobadoAdmin(mail, pass, admin)) {
+				Usuario usr = comprobadoUser(mail, pass);
+				if (usr != null) {
+					// Eliminar cookies
+					Cookie[] cookie = request.getCookies();
+					for (Cookie c: cookie){
+						// La cookie se eliminar al recibir la respuesta
+						c.setMaxAge(0);
+						response.addCookie(c);
+					}
+					// Usuario logeado correctamente, crear cookies
+					Cookie usrMail = new Cookie("userMail", mail);
+					Cookie usrName = new Cookie("userName", usr.getNombre());
+					Cookie usrAdmin = new Cookie("admin", ""+usr.getAdmin());
+					Cookie usrPass = new Cookie("userPass", ""+usr.getPasswd());
+					// Duración de las cookies
+					usrMail.setMaxAge(-1); //15 minutos
+					usrName.setMaxAge(-1); //15 minutos
+					usrAdmin.setMaxAge(-1); //15 minutos
+					usrPass.setMaxAge(-1); //15 minutos
+					// Incluirlas en la sesión
+					response.addCookie(usrMail);
+					response.addCookie(usrName);
+					response.addCookie(usrAdmin);
+					response.addCookie(usrPass);
 				}
-				// Usuario logeado correctamente, crear cookies
-				Cookie usrMail = new Cookie("userMail", mail);
-				Cookie usrName = new Cookie("userName", usr.getNombre());
-				Cookie usrAdmin = new Cookie("admin", ""+usr.getAdmin());
-				Cookie usrPass = new Cookie("userPass", ""+usr.getPasswd());
-				// Duración de las cookies
-				usrMail.setMaxAge(-1); //15 minutos
-				usrName.setMaxAge(-1); //15 minutos
-				usrAdmin.setMaxAge(-1); //15 minutos
-				usrPass.setMaxAge(-1); //15 minutos
-				// Incluirlas en la sesión
-				response.addCookie(usrMail);
-				response.addCookie(usrName);
-				response.addCookie(usrAdmin);
-				response.addCookie(usrPass);
+				respuesta = result + "," + result2 + ", " + val
+						+ "}";
 			}
-			respuesta = result + "," + result2 + ", " + val
-					+ "}";
 		}
-		
 			
 		// Debug
 		System.out.println(respuesta);

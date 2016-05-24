@@ -60,6 +60,52 @@ public class UsuarioDAO {
 	}
 	
 	/**
+	 * Modifica un usuario en la BBDD
+	 * Devuelve true si lo modifica, false si no
+	 */
+	public static boolean update(Usuario usr) throws SQLException {
+		Connection conecta = null;
+		Statement stmt = null;
+		boolean existe=false;
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			//Comprobar si existe 
+			String query="select * from Usuarios where Correo='"+ usr.getMail() +"';";
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				existe=true;
+	        }
+			
+			if(existe){
+				query="update Usuarios SET "
+						+ "Nombre='" + usr.getNombre() 
+						+ "', Contraseña='" + usr.getPasswd()
+						+ "' WHERE Correo='"+ usr.getMail()+"'";
+					stmt.executeUpdate(query);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+				return existe;
+			}
+
+			if (conecta != null) {
+				conecta.close();
+				return existe;
+			}
+
+		}
+		return existe;
+	}
+	
+	
+	/**
 	 * Inserta o actualiza una valoración
 	 */
 	public static void insertValoracion(String usr, int destino, int val)

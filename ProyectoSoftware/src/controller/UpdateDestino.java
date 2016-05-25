@@ -25,14 +25,14 @@ import objetos.Usuario;
 /**
  * Servlet implementation class BuscaDestino
  */
-@WebServlet("/SeleccionDestino")
-public class SeleccionDestino extends HttpServlet {
+@WebServlet("/UpdateDestino")
+public class UpdateDestino extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SeleccionDestino() {
+    public UpdateDestino() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -51,8 +51,67 @@ public class SeleccionDestino extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String idCarrera = "";
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie c: cookies){
+				if (c.getName().compareTo("idCarrera") == 0) idCarrera = c.getValue();
+			}
+		}
+		
+		int numRemoved=Integer.parseInt(request.getParameter("numRemoved"));
+		int countRemoved=0;
+		String subjectName="";
+		int creditNumber=0;
+		int cuatriNumber=0;
+		String creditN="";
+		String cuatri="";
+		int numSubject=1;
+		subjectName=request.getParameter("subjectName"+numSubject);
+		while(request.getParameter("subjectName"+numSubject) != null || countRemoved < numRemoved){
+			if(request.getParameter("subjectName"+numSubject) != null && 
+					request.getParameter("cuatriNumber"+numSubject) != null
+					&& request.getParameter("creditNumber"+numSubject) != null){
+				subjectName=request.getParameter("subjectName"+numSubject);
+				creditN=request.getParameter("creditNumber"+numSubject);
+				if(isNumeric(creditN)){
+					creditNumber=Integer.parseInt(request.getParameter("creditNumber"+numSubject));
+				}
+				cuatri=request.getParameter("cuatriNumber"+numSubject);
+				if (cuatri.contains("OtoÃ±o") || cuatri.contains("Otoño")){
+					cuatriNumber = 1;
+				}
+				else if (cuatri.contains("Primavera")){
+					cuatriNumber = 2;
+				}
+				if(isNumeric(creditN) || cuatriNumber==1 || cuatriNumber==2 || subjectName!=""){
+					try {
+						AsignaturaDAO.insertAsignatura(subjectName,Integer.parseInt(idCarrera),creditNumber,cuatriNumber);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			else{
+				countRemoved++;
+			}
+			numSubject++;
+		}
+		Cookie idCarr = new Cookie("idCarrera", "");
+		idCarr.setMaxAge(0);
+		response.addCookie(idCarr);
+		response.sendRedirect("Erasmus/destino.html?idDestino=" + idCarrera);
 	}
+	
+	private static boolean isNumeric(String cadena){
+    	try {
+    		Integer.parseInt(cadena);
+    		return true;
+    	} catch (NumberFormatException nfe){
+    		return false;
+    	}
+    }
 	
 	/**
 	 * @throws IOException 
@@ -61,9 +120,11 @@ public class SeleccionDestino extends HttpServlet {
 	 */
 	private void buscaPrivado(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		String carrera = request.getParameter("idDestino");
-		int destino = Integer.parseInt(carrera);
-		System.out.println(">" + carrera);
+		String id = request.getParameter("Id");
+		int destino = Integer.parseInt(id);
+		Cookie idCarrera = new Cookie("idCarrera", id);
+		idCarrera.setMaxAge(-1);
+		response.addCookie(idCarrera);
 		
 		String mail = "";
 		String admin = "";
@@ -77,30 +138,18 @@ public class SeleccionDestino extends HttpServlet {
 			}
 		}
 		
-		ArrayList<Destino> uno = null;
 		ArrayList<Asignaturas> dos = null;
-		ArrayList<Comentario> tres = null;
-		int rate = 0;
 		try {
-			uno = DestinoDAO.buscarDestinoId(destino, null, null);
 			dos = AsignaturaDAO.mostrarAsignatura(destino);
-			tres = ComentarioDAO.selectByDestino(destino);
-			rate = DestinoDAO.selectValoracion(destino);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		String result = Destino.toJSON(uno); 
-		result =result.substring(0, result.length()-1);
 		String result2 = Asignaturas.toJSON(dos);
-		result2 =result2.substring(1, result2.length()-1);
-		String val = "\"Valoracion\": " + rate;
-		String result3 = Comentario.toJSON(tres);
-		result3 =result3.substring(1, result3.length());
+		result2 =result2.substring(0, result2.length());
 		
-		String respuesta = result + "," + result2 + ", " + val
-				+ ", " + result3;
+		String respuesta = result2;
 		
 		if (mail.compareTo("")!=0
 				&& pass.compareTo("")!=0 && admin.compareTo("")!=0) {
@@ -119,6 +168,9 @@ public class SeleccionDestino extends HttpServlet {
 					Cookie usrName = new Cookie("userName", usr.getNombre());
 					Cookie usrAdmin = new Cookie("admin", ""+usr.getAdmin());
 					Cookie usrPass = new Cookie("userPass", ""+usr.getPasswd());
+					idCarrera = new Cookie("idCarrera", id);
+					idCarrera.setMaxAge(-1);
+					response.addCookie(idCarrera);
 					// Duración de las cookies
 					usrMail.setMaxAge(-1); //15 minutos
 					usrName.setMaxAge(-1); //15 minutos
@@ -130,8 +182,7 @@ public class SeleccionDestino extends HttpServlet {
 					response.addCookie(usrAdmin);
 					response.addCookie(usrPass);
 				}
-				respuesta = result + "," + result2 + ", " + val
-						+ "}";
+				respuesta = result2;
 			}
 		}
 			

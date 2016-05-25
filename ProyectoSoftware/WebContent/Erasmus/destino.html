@@ -139,6 +139,7 @@
 						{{x.Carrera}} <span
 							style="font-size: 25px; color: rgb(144, 144, 144);"> |
 							{{x.Genero}} | {{x.Idioma}}</span>
+							<a type="button" class="btn btn-sm btn-info" href="/ProyectoSoftware/Erasmus/updateDest.html?Id={{x.Id}}">Editar</a>
 					</h2>
 
 					<p>
@@ -249,9 +250,7 @@
 												<small>Administrador | </small>
 											</div>
 											<small>{{ x.Time }}</small>
-											<div  ng-show="(adminVal) > 0">
-											<a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=4&accion=1&id={{x.Id}}">Borrar</a>
-											</div>
+											<a ng-show="(adminVal) > 0" type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=4&accion=1&id={{x.Id}}">Borrar</a>
 									</h4>
 									{{ x.Texto }}
 							</div>

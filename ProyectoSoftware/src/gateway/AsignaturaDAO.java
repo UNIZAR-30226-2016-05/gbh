@@ -219,4 +219,12 @@ public class AsignaturaDAO {
 			preparedStatement.execute();
 			conecta.close();
 		}
+		public static void updateDelete(String id) throws SQLException{
+			Connection conecta = AccesoBase.getDBConnection();
+
+			String query = "UPDATE Asignaturas set Borrado=1 WHERE idAsignatura='"+id+"';";
+			PreparedStatement preparedStatement = conecta.prepareStatement(query);		
+			preparedStatement.execute();
+			conecta.close();
+		}
 }

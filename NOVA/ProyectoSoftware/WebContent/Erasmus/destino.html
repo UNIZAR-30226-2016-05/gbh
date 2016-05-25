@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="img/logo.png">
+
+	<title>Destino - Erasmus</title>
+
+	<!-- Semantic UI -->
+	<link rel="stylesheet" type="text/css" href="../Semantic-UI-CSS-master/dist/semantic.min.css">
+	<script src="../Semantic-UI-CSS-masters/dist/semantic.min.js"></script>
+
+	<!-- Bootstrap core CSS -->
+	<link href="../bootstrap-3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="css/carousel.css" rel="stylesheet">
+	<link href="css/dashboard.css" rel="stylesheet">
+	<!-- Rating (estrellas) -->
+	<link href="css/destino.css" rel="stylesheet">
+
+	<style type="text/css">
+		#sombra {
+			text-shadow: 0.17em 0.17em #333;
+			text-align: right;
+		}
+
+		#comentario {
+			background-color: rgba(192, 192, 192, 0.8);
+			text-align: left;
+			width: 40%;
+		}
+		.admin {
+			display: inline-block;
+		}
+		#val {
+			display: inline-block;
+		}
+	</style>
+</head>
+<script src="../angular-1.5.0/angular.min.js"></script>
+<!-- NAVBAR
+================================================== -->
+
+<body ng-app="myApp" ng-controller="destinoControl">
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Erasmus</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="addDestiny.html">Nuevo Destino</a></li>
+					<li ng-show="(adminVal) > 0">
+						<a href="admin.html">Administrador</a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-show="(userMail) != null && (userMail) != ''">
+						<a href="#" class="dropdown-toggle"
+      						data-toggle="dropdown" role="button" aria-haspopup="true"
+      						aria-expanded="false">Su Sesión<span class="caret"></span>
+      					</a>
+   						<ul class="dropdown-menu">
+   							<li><a href="/ProyectoSoftware/Erasmus/editPerfil.html">Editar Perfil</a></li>
+   							<li><a href="/ProyectoSoftware/CerrarSesion">Cerrar Sesión</a></li>
+   						</ul>
+					</li>
+					<li class="dropdown" ng-show="(userMail) == null || (userMail) == ''">
+						<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Sesión<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="/ProyectoSoftware/Erasmus/signin.html">Iniciar sesión</a></li>
+							<li><a href="/ProyectoSoftware/Erasmus/signup.html">Registrar</a></li>
+						</ul></li>
+				</ul>
+				<form class="navbar-form navbar-right" role="search"
+					action="search.html" method="GET">
+					<div class="ui search">
+						<div class="ui icon input">
+							<input class="prompt" type="text" placeholder="Carrera..."
+								name="navCarrera"> <i class="search icon"></i>
+						</div>
+						<div class="results"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Carousel
+    ================================================== -->
+	<!--<div ng-app="myApp" ng-controller="destinoControl">-->
+	<div>
+		<div ng-repeat="x in myData">
+			<div class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<img src="{{x.Img}}" class="img-responsive">
+						<div class="container">
+							<div class="carousel-caption" id="sombra">
+								<h1>
+									<strong>{{x.Universidad}}</strong>
+								</h1>
+								<p>{{x.Ciudad}}, {{x.Pais}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.carousel -->
+
+			<div class="row featurette">
+				<br>
+				<br>
+				<br>
+				<div class="col-md-8 col-md-push-1">
+					<h2 class="featurette-heading">
+						{{x.Carrera}} <span
+							style="font-size: 25px; color: rgb(144, 144, 144);"> |
+							{{x.Genero}} | {{x.Idioma}}</span>
+							<a type="button" class="btn btn-sm btn-info" href="/ProyectoSoftware/Erasmus/updateDest.html?Id={{x.Id}}">Editar</a>
+					</h2>
+
+					<p>
+						<span style="font-size: 25px; color: rgb(144, 144, 144);">Valoración
+							de Usuarios: </span>
+					</p>
+					<form action="/ProyectoSoftware/Valorar" method="post">
+						<div class="p_rating">
+							<span class="starRating" id="rate">
+								<input id="rating5" type="radio" name="rating" value="5">
+								<label for="rating5">5</label>
+								<input id="rating4" type="radio" name="rating" value="4">
+								<label for="rating4">4</label>
+								<input id="rating3" type="radio" name="rating" value="3">
+								<label for="rating3">3</label>
+								<input id="rating2" type="radio" name="rating" value="2">
+								<label for="rating2">2</label>
+								<input id="rating1" type="radio" name="rating" value="1">
+								<label for="rating1">1</label>
+							</span>
+							<input type="hidden" name="mail" value={{userMail}}>
+							<input type="hidden" name="destino" value={{destino}}>
+							<div ng-show="(userMail) != null && (userMail) != ''" id="val">
+								<!-- Espacio -->
+								&nbsp
+								<button type="submit" class="ui basic button small">Valorar</button>
+								<!-- Carga la valoración actual -->
+								<div ng-init="check()"></div>
+							</div>
+						</div>
+					</form>
+					<br><br>
+				</div>
+			</div>
+		</div>
+
+		<!-- /END THE FEATURETTES -->
+		<!-- Marketing messaging and featurettes
+    ================================================== -->
+		<!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+		<div class="container marketing">
+
+			<div class="row featurette">
+				<h2 class="sub-header">Asignaturas:</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Créditos</th>
+								<th>Cuatrimestre</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="y in myData2">
+								<td>{{y.Nombre}}</td>
+								<td>{{y.Creditos}}</td>
+								<td>{{y.Cuatrimestre}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="row featurette">
+				<!-- Blog Comments -->
+				<hr>
+				<!-- Comments Form -->
+				<div class="well" ng-show="(userMail) != null && (userMail) != ''">
+						<h4>Deja un comentario:</h4>
+						<form role="form" action="/ProyectoSoftware/Comentar" method="post">
+								<div class="form-group">
+										<textarea name="comentario" class="form-control" rows="3"></textarea>
+								</div>
+								<!-- Se ocultan datos necesarios para el servlet -->
+								<input type="hidden" name="mail" value={{userMail}}>
+								<input type="hidden" name="destino" value={{destino}}>
+
+								<button type="submit" class="btn btn-primary">Enviar</button>
+						</form>
+				</div>
+
+				<div class="well" ng-show="(userMail) == null || (userMail) == ''">
+						<h4>Necesitas registrate o iniciar sesión para poder comentar</h4>
+						<a href="signin.html" class="btn btn-success">Iniciar Sesión</a>
+						<!-- Espacio -->
+						&nbsp
+						<a href="signup.html" class="btn btn-primary">Resgistrar</a>
+				</div>
+
+				<hr>
+
+				<!-- Posted Comments -->
+				<div ng-repeat="x in myData3">
+
+					<!-- Comentario -->
+					<div class="media">
+							<!-- Icono del usuario, deshabilitado -->
+							<!--<a class="pull-left" href="#">
+									<img class="media-object" src="http://placehold.it/64x64" alt="">
+							</a>-->
+							<div class="media-body">
+							
+									<h4 class="media-heading">{{ x.Nombre }}
+											<div ng-show="(x.Admin) > 0" class="admin">
+												<small>Administrador | </small>
+											</div>
+											<small>{{ x.Time }}</small>
+											<div  ng-show="(adminVal) > 0">
+											<a type="button" class="btn btn-sm btn-danger" href="/ProyectoSoftware/AdminPublic?tipo=4&accion=1&id={{x.Id}}">Borrar</a>
+											</div>
+									</h4>
+									{{ x.Texto }}
+							</div>
+					</div>
+					<!-- Cierre comentario -->
+					<br>
+
+				</div>
+
+			</div>
+			<hr>
+			<br>
+			<!-- FOOTER -->
+			<footer>
+				<p class="pull-right">
+					<a href="#">Back to top</a>
+				</p>
+				<p>
+					&copy; 2016 GBH Development. &middot; <a href="about.html">About</a> &middot; <a href="contact.html">Contact</a>
+				</p>
+			</footer>
+
+		</div>
+		<!-- /.container -->
+	</div>
+	<script src="js/destino.js"></script>
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+		window.jQuery || document
+			.write('<script src="../bootstrap-3.3.6/assets/js/vendor/jquery.min.js"><\/script>')
+	</script>
+	<script src="../bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
+	<!-- Rating button -->
+	<script src="js/star-rating.js" type="text/javascript"></script>
+
+	<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+	<script type="text/javascript">
+	    window.cookieconsent_options = {"message":"Este sitio web utiliza cookies para asegurar la mejor experiencia en nuestra web",
+	    			"dismiss":"Entendido!","learnMore":"More info","link":null,"theme":"dark-bottom"};
+	</script>
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+	<!-- End Cookie Consent plugin -->
+
+</body>
+
+</html>

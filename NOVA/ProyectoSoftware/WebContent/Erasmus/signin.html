@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="img/logo.png">
+
+  <title>Signin - Erasmus</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../bootstrap-3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/signin.css" rel="stylesheet">
+</head>
+<script src="../angular-1.5.0/angular.min.js"></script>
+<body>
+
+  <div class="container" ng-app="myApp" ng-controller="signinCtrl">
+
+    <div ng-show="(error) == 'nulo'">
+      <div class="alert alert-danger">
+        <strong>Error!</strong> No se ha encontrado un usuario con ese email.
+      </div>
+    </div>
+    <div ng-show="(error) == 'passwd'">
+      <div class="alert alert-danger">
+        <strong>Error!</strong> Contraseña incorrecta.
+      </div>
+    </div>
+
+    <form class="form-signin" action="/ProyectoSoftware/InicioSesion" method="POST">
+      <h2 class="form-signin-heading">Iniciar Sesión</h2>
+      <label for="inputEmail" class="sr-only">Email</label>
+      <input type="email" name="mail" id="inputEmail"
+        class="form-control" placeholder="Email" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="passwd" id="inputPassword"
+        class="form-control" placeholder="Password" required>
+      <div class="checkbox">
+      	<br>
+        <!-- <label>
+          <input type="checkbox" value="remember-me"> Recuérdeme
+        </label> -->
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+    </form>
+
+  </div>
+  <!-- /container -->
+  <script type="text/javascript" src="js/signin.js">
+
+  </script>
+
+  <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+	<script type="text/javascript">
+	    window.cookieconsent_options = {"message":"Este sitio web utiliza cookies para asegurar la mejor experiencia en nuestra web",
+	    			"dismiss":"Entendido!","learnMore":"More info","link":null,"theme":"dark-bottom"};
+	</script>
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+	<!-- End Cookie Consent plugin -->
+
+</body>
+
+</html>

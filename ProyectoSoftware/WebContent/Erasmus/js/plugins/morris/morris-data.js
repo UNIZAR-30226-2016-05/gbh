@@ -95,7 +95,7 @@ $(function() {
             data: d.data,
             xkey: 'period',
             ykeys: ['Destinos', 'Carreras', 'Asignaturas', 'Usuarios', 'Comentarios', 'Valoraciones'],
-            labels: ['Asignaturas', 'Valoraciones', 'Destinos', 'Carreras', 'Usuarios', 'Comentarios'],
+            labels: ['Destinos', 'Carreras', 'Asignaturas', 'Usuarios', 'Comentarios', 'Valoraciones'],
             pointSize: 2,
             hideHover: 'auto',
             resize: true

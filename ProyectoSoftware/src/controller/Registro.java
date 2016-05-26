@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,8 @@ public class Registro extends HttpServlet {
 					response.sendRedirect("Erasmus/signup.html?error=1");
 				}
 				else{
+					startCookies(correo, user, tipo,
+							password, response);
 			    	response.sendRedirect("Erasmus/home.html");
 
 				}
@@ -99,5 +102,27 @@ public class Registro extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+	
+	/**
+	 * Crea las cookies de sesión
+	 */
+	private static void startCookies(String mail, String nombre, 
+			int admin, String passwd, HttpServletResponse response){
+		// Usuario logeado correctamente, crear cookies
+		Cookie usrMail = new Cookie("userMail", mail);
+		Cookie usrName = new Cookie("userName", nombre);
+		Cookie usrAdmin = new Cookie("admin", ""+admin);
+		Cookie usrPass = new Cookie("userPass", ""+passwd);
+		// Duración de las cookies
+		usrMail.setMaxAge(-1);
+		usrName.setMaxAge(-1); 
+		usrAdmin.setMaxAge(-1);
+		usrPass.setMaxAge(-1); 
+		// Incluirlas en la sesión
+		response.addCookie(usrMail);
+		response.addCookie(usrName);
+		response.addCookie(usrAdmin);
+		response.addCookie(usrPass);
+	}
 
 }

@@ -16,6 +16,51 @@ import objetos.Usuario;
 public class UsuarioDAO {
 	
 	/**
+	 * Devuelve el numero de asignaturas introducidas en un mes
+	 * de un determinado año
+	 */
+	public static int[] selectCount(int year) throws SQLException{
+		int [] result = new int [12];
+		for (int i=0; i< result.length; i++){
+			result[i] = 0;
+		}
+		Connection conecta = null;
+		Statement stmt = null;
+		
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query="SELECT Count(*) as num, Month(Time) as mes "
+					+ "FROM Usuarios where year(Time)=" + year
+					+ " group by mes";
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				int mes = rs.getInt("mes");
+				int count = rs.getInt("num");
+				result[mes-1] = count;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		
+		
+		return result;
+	}
+	
+	/**
 	 * Inserta un usuario en la BBDD
 	 * Devuelve true si lo inserta, false si no
 	 */

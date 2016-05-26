@@ -76,20 +76,8 @@ public class InicioSesion extends HttpServlet {
 				response.sendRedirect("/ProyectoSoftware/Erasmus/signin.html?error=passwd");
 			} else {
 				// Usuario logeado correctamente, crear cookies
-				Cookie usrMail = new Cookie("userMail", mail);
-				Cookie usrName = new Cookie("userName", usr.getNombre());
-				Cookie usrAdmin = new Cookie("admin", ""+usr.getAdmin());
-				Cookie usrPass = new Cookie("userPass", ""+usr.getPasswd());
-				// Duración de las cookies
-				usrMail.setMaxAge(-1); //15 minutos
-				usrName.setMaxAge(-1); //15 minutos
-				usrAdmin.setMaxAge(-1); //15 minutos
-				usrPass.setMaxAge(-1); //15 minutos
-				// Incluirlas en la sesión
-				response.addCookie(usrMail);
-				response.addCookie(usrName);
-				response.addCookie(usrAdmin);
-				response.addCookie(usrPass);
+				startCookies(mail, usr.getNombre(), usr.getAdmin(),
+						usr.getPasswd(), response);
 				
 				// Inicio de sesión de administrador
 				if (usr.getAdmin() > 0){
@@ -130,5 +118,27 @@ public class InicioSesion extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+	
+	/**
+	 * Crea las cookies de sesión
+	 */
+	private static void startCookies(String mail, String nombre, 
+			int admin, String passwd, HttpServletResponse response){
+		// Usuario logeado correctamente, crear cookies
+		Cookie usrMail = new Cookie("userMail", mail);
+		Cookie usrName = new Cookie("userName", nombre);
+		Cookie usrAdmin = new Cookie("admin", ""+admin);
+		Cookie usrPass = new Cookie("userPass", ""+passwd);
+		// Duración de las cookies
+		usrMail.setMaxAge(-1);
+		usrName.setMaxAge(-1); 
+		usrAdmin.setMaxAge(-1);
+		usrPass.setMaxAge(-1); 
+		// Incluirlas en la sesión
+		response.addCookie(usrMail);
+		response.addCookie(usrName);
+		response.addCookie(usrAdmin);
+		response.addCookie(usrPass);
+	}
 
 }

@@ -11,6 +11,141 @@ import objetos.Destino;
 
 public class DestinoDAO {
 	
+	/**
+	 * Devuelve el numero de asignaturas introducidas en un mes
+	 * de un determinado año
+	 */
+	public static int[] selectCountCarrera(int year) throws SQLException{
+		int [] result = new int [12];
+		for (int i=0; i< result.length; i++){
+			result[i] = 0;
+		}
+		Connection conecta = null;
+		Statement stmt = null;
+		
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query="SELECT Count(*) as num, Month(Time) as mes "
+					+ "FROM Carrera where year(Time)=" + year
+					+ " group by mes";
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				int mes = rs.getInt("mes");
+				int count = rs.getInt("num");
+				result[mes-1] = count;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		
+		
+		return result;
+	}
+	
+	/**
+	 * Devuelve el numero de asignaturas introducidas en un mes
+	 * de un determinado año
+	 */
+	public static int[] selectCountDestino(int year) throws SQLException{
+		int [] result = new int [12];
+		for (int i=0; i< result.length; i++){
+			result[i] = 0;
+		}
+		Connection conecta = null;
+		Statement stmt = null;
+		
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query="SELECT Count(*) as num, Month(Time) as mes "
+					+ "FROM Destinos where year(Time)=" + year
+					+ " group by mes";
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				int mes = rs.getInt("mes");
+				int count = rs.getInt("num");
+				result[mes-1] = count;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		
+		
+		return result;
+	}
+	
+	/**
+	 * Devuelve el numero de asignaturas introducidas en un mes
+	 * de un determinado año
+	 */
+	public static int[] selectCountValoracion(int year) throws SQLException{
+		int [] result = new int [12];
+		for (int i=0; i< result.length; i++){
+			result[i] = 0;
+		}
+		Connection conecta = null;
+		Statement stmt = null;
+		
+		try {
+			conecta = AccesoBase.getDBConnection();
+			
+			stmt = conecta.createStatement();
+			String query="SELECT Count(*) as num, Month(Time) as mes "
+					+ "FROM Valoraciones where year(Time)=" + year
+					+ " group by mes";
+			// execute query
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				int mes = rs.getInt("mes");
+				int count = rs.getInt("num");
+				result[mes-1] = count;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (conecta != null) {
+				conecta.close();
+			}
+
+		}
+		
+		
+		return result;
+	}
+	
 	public static void insertDestino(String carrera, String universidad, String ciudad, String pais, String idioma, String genero, String img) throws SQLException {
 		Connection conecta = null;
 		Statement stmt = null;

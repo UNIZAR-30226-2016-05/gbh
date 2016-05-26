@@ -39,6 +39,10 @@
 		.admin {
 			display: inline-block;
 		}
+		.edit {
+			font-size: 14px;
+			color: rgb(144, 144, 144);
+		}
 		#val {
 			display: inline-block;
 		}
@@ -76,7 +80,7 @@
 					<li ng-show="(userMail) != null && (userMail) != ''">
 						<a href="#" class="dropdown-toggle"
       						data-toggle="dropdown" role="button" aria-haspopup="true"
-      						aria-expanded="false">Su Sesión<span class="caret"></span>
+      						aria-expanded="false">Sesión<span class="caret"></span>
       					</a>
    						<ul class="dropdown-menu">
    							<li><a href="/ProyectoSoftware/Erasmus/editPerfil.html">Editar Perfil</a></li>
@@ -138,8 +142,11 @@
 					<h2 class="featurette-heading">
 						{{x.Carrera}} <span
 							style="font-size: 25px; color: rgb(144, 144, 144);"> |
-							{{x.Genero}} | {{x.Idioma}}</span>
-							<a type="button" class="btn btn-sm btn-info" href="/ProyectoSoftware/Erasmus/updateDest.html?Id={{x.Id}}">Editar</a>
+							{{x.Genero}} | {{x.Idioma}} | 
+							<a class="btn btn-xs edit" href="/ProyectoSoftware/Erasmus/updateDest.html?Id={{x.Id}}">
+								Editar
+							</a>
+						</span>
 					</h2>
 
 					<p>
@@ -244,7 +251,7 @@
 									<img class="media-object" src="http://placehold.it/64x64" alt="">
 							</a>-->
 							<div class="media-body">
-							
+
 									<h4 class="media-heading">{{ x.Nombre }}
 											<div ng-show="(x.Admin) > 0" class="admin">
 												<small>Administrador | </small>
